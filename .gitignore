@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+*.pyc
+*.skill.tmp
+# offline eval run outputs (regenerable); benchmark.md summaries are kept
+skill-source/adversary-workspace/iteration-*/eval-*/
+# credentials must never land in the repo
+.ado-pr-review-creds.json
+
+# local tool config
+.claude/
+
+# generated README preview
+preview/

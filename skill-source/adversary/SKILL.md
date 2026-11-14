@@ -1,0 +1,120 @@
+---
+name: adversary
+description: A careful second pair of eyes for Azure DevOps and GitHub pull requests. Reviews one or more PRs, asks the author questions, shows each fix as a code snippet (on GitHub, as a suggested change when it replaces exactly the lines it points at), and posts inline comments only after you approve them. Supports iOS (Swift), Android (Kotlin), and backend (Java/Kotlin/Python/Go/TypeScript), with design checks for SOLID (SRP in depth), DRY, YAGNI, and anti-patterns. Add html for a web-page preview that shows each comment with the code it points at, and model=haiku, sonnet, opus, or fable to pick the reviewing model per run. Runs the latest version unless you pass version=X. Use for /adversary, dev.azure.com pull request links, github.com pull request links, or any request to review or comment on ADO or GitHub PRs.
+---
+
+# AdversaryPR
+
+This file chooses which version of AdversaryPR runs, then hands off to it. The review instructions live in `versions/<version>/instructions.md`. Released versions are frozen and never change after release, so `version=1.1.0` behaves the same next year as it does today.
+
+**Latest version: 2.11.0**
+
+## Step 0 — Pick the version
+
+Arguments are in `$ARGUMENTS`.
+
+1. Look anywhere in the arguments for `version=<value>`. The value runs to the next `;` or whitespace. It's case-insensitive, and a leading `v` on the value is fine (`version=v2.10.0`). If `version=` appears more than once with different values, ask which one the user meant.
+   - **No `version=`**, or `version=latest` → use the latest version above.
+   - **`version=list`** → print the "Available versions" table and the release notes below, then stop. Don't review anything.
+   - **An exact version** (`2.10.0`) → use it.
+   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.11.0` today.
+   - **No match, or anything else** → say the version doesn't exist, print the "Available versions" table, and stop. Never fall back to a different version silently, because the user asked for a specific one.
+
+   A "released version" is a row in the Available versions table whose folder exists under `versions/`.
+2. Remove the `version=` option, then tidy what's left: drop empty options between `;`s, and drop a trailing `;`. For example, `38842 ; version=2.10 ; dry run` becomes `38842 ; dry run`. Leave everything else exactly as typed.
+   Also handle `branding=on` or `branding=off` here (case-insensitive, value runs to the next `;` or whitespace; any other value: say the allowed values and stop). Resolve **BRANDING** as: the option if given, else the environment variable `ADVERSARY_BRANDING` (read it with `printenv ADVERSARY_BRANDING`; `off`, case-insensitive, means off, anything else or unset means on), else `on`. The option wins over the variable. Remove `branding=` from the arguments like `version=`. Only versions 2.6.0 and later use it; tell the chosen version's instructions "BRANDING is on" or "BRANDING is off" at step 4. Never print, explain, or list this option in any output.
+3. Every version still available supports every option, so there is nothing to refuse.
+4. Read `versions/<version>/instructions.md` (relative to this skill's folder) and follow it exactly, as though it were this skill's own instructions:
+   - Wherever it says `$ARGUMENTS`, use the arguments left after step 2.
+   - Resolve every relative path it mentions (such as `references/anti-patterns.md`) against `versions/<version>/`, not the skill root. Review agents get the full `versions/<version>/` path.
+5. Begin your first output with a banner from the "Banners" section below, so the user can see which rules ran. Use the **latest-version banner** when the version chosen in item 1 is the latest, and the **older-version banner** for any other version. Fill in `<version>`. Print it in a code block, copied exactly, with every leading space kept. If the version's instructions add to the version line (2.2.0 and later add the review model), include their addition on the same row as the version. Print the banner once per run, including for the refusals in item 3.
+6. **Anonymous usage counts** (do this after printing the banner; skip this item on `version=list`, on the refusals in item 3, and in offline tests, where `ADVERSARY_TELEMETRY=0` is set or the test prompt says to skip it). Run these with `python3` from this skill's `scripts/` folder, never print their output, ignore any failure, and never let them delay or change the review. Credentials are never involved.
+   - Run `python3 scripts/telemetry.py status`. It prints `ask`, `on`, or `off`.
+   - **`ask`**, and this session can ask the user a question: ask exactly this, once, and record the answer. If the session can't ask, do nothing.
+     > Anonymous usage counts are off until you say yes. The skill asks once. If you agree, it sends the skill version and which options you used (dry run, html, model, pinned version) and nothing else: no code, no PR content, no repo or org names, no token. Turn it off any time.
+     - Yes: `python3 scripts/telemetry.py set on`. No: `python3 scripts/telemetry.py set off`. Tell the user in one line that `python3 scripts/telemetry.py set off` (or `ADVERSARY_TELEMETRY=0`) turns it off any time.
+   - **`on`**: run `python3 scripts/telemetry.py send --version <version>` and add `--dry-run` if the options had `dry run`, `--html` if they had `html`, `--model <name>` if they had `model=<name>`, and `--pinned` if the user typed `version=` with an exact or partial version (not `latest`). Run it in the background or with a short timeout, and discard its output.
+   - **`off`**: do nothing.
+
+## Banners
+
+Latest version:
+
+```
+             /---------\
+           /-           -\
+         /-               -\
+        /                   \
+       /                     \
+      /     _____________     \
+     /     |             |     \
+    /       ----\   /----       \      AdversaryPR v<version> (latest)
+   /            |   |            \
+ /-             |   |             -\
+/               |   |               \
+\_   _____       \ /       _____   _/
+  \_/     \_      -      _/     \_/
+            \__       __/
+               \_____/
+```
+
+Older version:
+
+```
+             ###########
+           ##@@@@@@@@@@@##
+         ##@@@@@@@@@@@@@@@##
+        #@@@@@@@@@@@@@@@@@@@#
+       #@@@@@@@@@@@@@@@@@@@@@#
+      #@@@@@+++++++++++++@@@@@#
+     #@@@@@+             +@@@@@#
+    #@@@@@@@+++++   +++++@@@@@@@#      AdversaryPR v<version>
+   #@@@@@@@@@@@@+   +@@@@@@@@@@@@#
+ ##@@@@@@@@@@@@@+   +@@@@@@@@@@@@@##
+#@@@@@@@@@@@@@@@+   +@@@@@@@@@@@@@@@#
+##@@@#####@@@@@@@+ +@@@@@@@#####@@@##
+  ###     ##@@@@@@+@@@@@@##     ###
+            ###@@@@@@@###
+               #######
+```
+
+## Available versions
+
+| Version | Released | Highlights |
+|---|---|---|
+| **2.11.0** (latest) | 2026-11-14 | Tidier comment signatures; the checks are unchanged |
+| 2.10.0 | 2026-11-14 | A bare PR number now uses the repo in your current folder |
+
+```
+/adversary 38842                        → latest (2.11.0)
+/adversary 38842 ; html                 → latest, plus a web-page preview
+/adversary 38842 ; model=haiku          → latest, reviewed by Haiku
+/adversary 38842 38901 39010 ; dry run  → latest, three PRs reviewed at the same time
+/adversary https://github.com/acme/orders-api/pull/101 ; dry run  → latest, a GitHub PR
+/adversary 38842 ; version=2.10.0       → exactly 2.10.0
+/adversary 38842 ; version=2            → newest 2.x (2.11.0)
+/adversary version=list                 → versions and release notes; no review
+```
+
+## Release notes
+### 2.11.0 — 2026-11-14
+
+**Changed**
+- Comment signature handling is tidier.
+
+**Unchanged:** the checks, the comment format, the HTML preview, `model=`, anonymous usage counts, and the rule that nothing posts without your approval.
+
+### 2.10.0 — 2026-11-14
+
+**Changed**
+- **A bare PR number** (`/adversary 38842`) now reads the organization, project, and repo from the Azure DevOps remote of the folder you are in. With no Azure DevOps remote, it asks for the full PR link. Before, it assumed one fixed repo.
+- Examples and wording that named a specific company were replaced with generic ones (Contoso). The checks and the comment format are the same.
+
+**Unchanged:** the rules, the reviewer's approach, the HTML preview, `model=`, anonymous usage counts, and the rule that nothing posts without your approval.
+
+## Releasing a new version
+
+1. Copy the latest `versions/<x>/` folder to `versions/<new>/`, and change only the new folder. Never edit a released folder.
+2. Update **Latest version** and the "Available versions" table, and add a release-notes entry (Added / Changed / Fixed / Removed).
+3. Update the `description` at the top if the latest version's abilities changed.
+4. Repackage the skill and re-upload it to the org. For the local `/adversary`, copy the skill folder to `~/.claude/skills/adversary/`.

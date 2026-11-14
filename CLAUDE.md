@@ -1,0 +1,18 @@
+# AdversaryPR project
+
+This folder holds the source of the AdversaryPR Claude skill (careful, thorough Azure DevOps and GitHub PR review), its GitHub Copilot port, and its offline test workspace. `MIGRATION.md` has setup, the release steps, the test prompt, and open items. Read it before changing anything.
+
+## Rules
+
+- **Released versions are frozen.** Never edit anything under `skill-source/adversary/versions/<x>/` once it's in a built `adversary.skill`. Every change goes into a new version folder copied from the latest. Then update `SKILL.md`: the Latest version line, the versions table, the release notes, the description if needed, and Step 0's option refusals if a new option was added.
+- **Build with `python3 tools/build_skill.py`** (`--check` to only check, `--install` to also install locally). Don't hand-zip. The script enforces the frozen rule and the org upload's frontmatter limits. Never pass `--allow-change` unless the user asks for it.
+- **Examples stay generic** (orders, invoices, exports). No real employer or customer file names, people, or code in examples.
+- **Credentials:** the PAT is never printed, logged, or written into this folder. Review agents never get it. Tests run offline (see MIGRATION.md) and never call Azure DevOps. Nothing posts to a PR without the user's approval.
+- **Copilot port:** keep each `AdversaryPR/instructions/*.instructions.md` under 4,000 characters, and update `AdversaryPR/README.md`'s "Matches skill version" line when the rules change.
+- **Comment footer:** it must be part of each finding's `content` in `findings.json`, appended by the main session (never review agents), so the preview and the post match exactly.
+- **Comment format:** comments must be question-led (what was noticed, then a genuine question to the author) with the fix as a code snippet. Use the ```` ```suggestion ```` info string only on GitHub, and only when the snippet exactly replaces the anchored line or range; never on Azure DevOps.
+- **Python** in the skill and tools uses the standard library only and must run on Python 3.8+. macOS's system Python is 3.9.
+- **Testing a new version:** run at least evals 1 and 2 from `skill-source/adversary-workspace/evals/evals.json` offline into a new `iteration-N/` folder, grade them against the checklist, and run `render_preview.py` on the results to check comment placement.
+- **Telemetry stays opt-in with a strict allowlist** (schema, event, skill version, dry_run, html, model, version_pinned; nothing else). All its strings live in `skill-source/adversary/scripts/telemetry_constants.py` and `functions/constants.py` in the private web repo. Offline tests never send (`ADVERSARY_TELEMETRY=0`). Never deploy the collector without the user.
+- **Comment footer:** the address is a markdown link: `Comment by <name> using Adversary ([adversarypr.com](https://adversarypr.com))` (no name: `Comment using Adversary ([adversarypr.com](https://adversarypr.com))`).
+- **Tone:** reviewer-facing and marketing text (the instructions, SKILL.md, the README, the Copilot port, the website) must not frame the reviewer as an opponent of the code or the author: no "adversarial", "hostile", "tough", "blunt", "guilty" or "assume the code is wrong". The reviewer is careful, thorough, and on the author's side as much as the reviewer's. The product name AdversaryPR stays. Never soften the checks, the evidence standard, or severity to improve the tone.

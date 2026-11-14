@@ -1,0 +1,269 @@
+diff --git a/ios/Profile/ProfileViewModel.swift b/ios/Profile/ProfileViewModel.swift
+index 1a2b3c4..5d6e7f8 100644
+--- a/ios/Profile/ProfileViewModel.swift
++++ b/ios/Profile/ProfileViewModel.swift
+@@ -1,20 +1,38 @@
+ import Foundation
+ import Combine
+
+ @MainActor
+ final class ProfileViewModel: ObservableObject {
+     @Published private(set) var displayName = ""
+     @Published private(set) var memberSince = ""
++    @Published private(set) var unreadCount = 0
+
+     private let getProfile: GetProfileUseCase
++    private let session: URLSession
++    private let cacheURL: URL
++    private let inbox: InboxStore
+
+-    init(getProfile: GetProfileUseCase) {
++    init(getProfile: GetProfileUseCase, session: URLSession, cacheURL: URL, inbox: InboxStore) {
+         self.getProfile = getProfile
++        self.session = session
++        self.cacheURL = cacheURL
++        self.inbox = inbox
+     }
+
+     func load() async throws {
+-        let profile = try await getProfile.execute()
+-        displayName = profile.displayName
+-        memberSince = profile.memberSinceText
++        let (data, _) = try await session.data(from: ProfileAPI.profileURL)
++        let dto = try JSONDecoder().decode(ProfileDTO.self, from: data)
++        try data.write(to: cacheURL)
++        let formatter = DateFormatter()
++        formatter.dateFormat = "MMMM yyyy"
++        displayName = "\(dto.firstName) \(dto.lastName)"
++        memberSince = formatter.string(from: dto.createdAt)
++        unreadCount = inbox.messages.filter { !$0.isRead }.count
++    }
++
++    var hasUnreadMessages: Bool {
++        let result = inbox.messages.contains { !$0.isRead }
++        inbox.markAllAsSeen()
++        return result
+     }
+ }
+diff --git a/ios/Networking/HTTPMethod.swift b/ios/Networking/HTTPMethod.swift
+new file mode 100644
+index 0000000..a1b2c3d
+--- /dev/null
++++ b/ios/Networking/HTTPMethod.swift
+@@ -0,0 +1,12 @@
++enum HTTPMethod {
++    case get, post, put, delete
++
++    var rawName: String {
++        switch self {
++        case .get: return "GET"
++        case .post: return "POST"
++        case .put: return "PUT"
++        case .delete: return "DELETE"
++        }
++    }
++}
+diff --git a/ios/ProfileTests/ProfileViewModelTests.swift b/ios/ProfileTests/ProfileViewModelTests.swift
+new file mode 100644
+index 0000000..b2c3d4e
+--- /dev/null
++++ b/ios/ProfileTests/ProfileViewModelTests.swift
+@@ -0,0 +1,38 @@
++import XCTest
++@testable import ProfileFeature
++
++@MainActor
++final class ProfileViewModelTests: XCTestCase {
++    func testLoad_setsDisplayName() async throws {
++        let session = URLSession.stubbed(json: ProfileFixtures.standard)
++        let inbox = InboxStoreMock(messages: [])
++        let sut = ProfileViewModel(getProfile: GetProfileUseCaseMock(), session: session,
++                                   cacheURL: .temporaryFile(), inbox: inbox)
++
++        try await sut.load()
++
++        XCTAssertEqual(sut.displayName, "Sam Rivera")
++    }
++
++    func testLoad_setsMemberSince() async throws {
++        let session = URLSession.stubbed(json: ProfileFixtures.standard)
++        let inbox = InboxStoreMock(messages: [])
++        let sut = ProfileViewModel(getProfile: GetProfileUseCaseMock(), session: session,
++                                   cacheURL: .temporaryFile(), inbox: inbox)
++
++        try await sut.load()
++
++        XCTAssertEqual(sut.memberSince, "March 2021")
++    }
++
++    func testLoad_countsUnreadMessages() async throws {
++        let session = URLSession.stubbed(json: ProfileFixtures.standard)
++        let inbox = InboxStoreMock(messages: [.unread(), .unread(), .read()])
++        let sut = ProfileViewModel(getProfile: GetProfileUseCaseMock(), session: session,
++                                   cacheURL: .temporaryFile(), inbox: inbox)
++
++        try await sut.load()
++
++        XCTAssertEqual(sut.unreadCount, 2)
++    }
++}
+diff --git a/android/app/src/main/java/com/example/music/ReadOnlyPlaylist.kt b/android/app/src/main/java/com/example/music/ReadOnlyPlaylist.kt
+new file mode 100644
+index 0000000..c3d4e5f
+--- /dev/null
++++ b/android/app/src/main/java/com/example/music/ReadOnlyPlaylist.kt
+@@ -0,0 +1,14 @@
++package com.example.music
++
++class ReadOnlyPlaylist(
++    override val id: PlaylistId,
++    private val tracks: List<Track>,
++) : Playlist() {
++    override fun tracks(): List<Track> = tracks
++
++    override fun add(track: Track) {
++        throw UnsupportedOperationException("Curated playlists are read-only")
++    }
++
++    override fun remove(track: Track) = Unit
++}
+diff --git a/android/app/src/main/java/com/example/music/PlaylistLibrary.kt b/android/app/src/main/java/com/example/music/PlaylistLibrary.kt
+index d4e5f6a..e5f6a7b 100644
+--- a/android/app/src/main/java/com/example/music/PlaylistLibrary.kt
++++ b/android/app/src/main/java/com/example/music/PlaylistLibrary.kt
+@@ -12,5 +12,8 @@ class PlaylistLibrary(
+ ) {
+     fun find(id: PlaylistId): Playlist = userPlaylists.getValue(id)
+
++    fun curatedPlaylists(): List<Playlist> =
++        curatedSource.all().map { ReadOnlyPlaylist(it.id, it.tracks) }
++
+     fun all(): List<Playlist> = userPlaylists.values.toList()
+ }
+diff --git a/android/app/src/main/java/com/example/music/PlaylistImporter.kt b/android/app/src/main/java/com/example/music/PlaylistImporter.kt
+index f6a7b8c..a7b8c9d 100644
+--- a/android/app/src/main/java/com/example/music/PlaylistImporter.kt
++++ b/android/app/src/main/java/com/example/music/PlaylistImporter.kt
+@@ -8,8 +8,9 @@ class PlaylistImporter(
+     private val library: PlaylistLibrary,
+ ) {
+     fun importInto(playlistIds: List<PlaylistId>, tracks: List<Track>) {
+-        playlistIds.map(library::find).forEach { playlist ->
++        val targets = playlistIds.map(library::find) + library.curatedPlaylists()
++        targets.forEach { playlist ->
+             tracks.forEach(playlist::add)
+         }
+     }
+ }
+diff --git a/android/app/src/main/java/com/example/shop/CartSummary.kt b/android/app/src/main/java/com/example/shop/CartSummary.kt
+new file mode 100644
+index 0000000..b8c9d0e
+--- /dev/null
++++ b/android/app/src/main/java/com/example/shop/CartSummary.kt
+@@ -0,0 +1,10 @@
++package com.example.shop
++
++data class CartLine(val sku: String, val unitPrice: Double, val quantity: Int)
++
++data class CartSummary(val items: List<CartLine>) {
++    val subtotal: Double get() = items.sumOf { it.unitPrice * it.quantity }
++    val tax: Double get() = subtotal * 0.0825
++    val total: Double get() = subtotal + tax
++    fun qualifiesForFreeShipping(): Boolean = total >= 50.0
++}
+diff --git a/web/src/checkout/shipping.ts b/web/src/checkout/shipping.ts
+new file mode 100644
+index 0000000..c9d0e1f
+--- /dev/null
++++ b/web/src/checkout/shipping.ts
+@@ -0,0 +1,3 @@
++export function qualifiesForFreeShipping(totalCents: number): boolean {
++  return totalCents >= 3500;
++}
+diff --git a/web/src/storage/StorageProviderFactory.ts b/web/src/storage/StorageProviderFactory.ts
+new file mode 100644
+index 0000000..d0e1f2a
+--- /dev/null
++++ b/web/src/storage/StorageProviderFactory.ts
+@@ -0,0 +1,27 @@
++import { LocalStorageProvider } from "./LocalStorageProvider";
++
++export type ProviderKind = "local" | "s3" | "gcs" | "azure";
++
++export interface StorageProviderOptions {
++  region?: string;
++  retries?: number;
++  encryption?: "none" | "aes256";
++  cacheTtlSeconds?: number;
++}
++
++export interface StorageProvider {
++  put(key: string, value: Blob): Promise<void>;
++  get(key: string): Promise<Blob | undefined>;
++}
++
++const registry: Partial<Record<ProviderKind, (o: StorageProviderOptions) => StorageProvider>> = {
++  local: () => new LocalStorageProvider(),
++};
++
++export class StorageProviderFactory {
++  static create(kind: ProviderKind, options: StorageProviderOptions = {}): StorageProvider {
++    const make = registry[kind];
++    if (!make) throw new Error(`${kind} storage is not implemented yet`);
++    return make(options);
++  }
++}
+diff --git a/web/src/drafts/draftStore.ts b/web/src/drafts/draftStore.ts
+index e1f2a3b..f2a3b4c 100644
+--- a/web/src/drafts/draftStore.ts
++++ b/web/src/drafts/draftStore.ts
+@@ -1,9 +1,19 @@
+-import { LocalStorageProvider } from "../storage/LocalStorageProvider";
++import { StorageProviderFactory } from "../storage/StorageProviderFactory";
+ import type { Draft } from "./types";
+
+-const storage = new LocalStorageProvider();
++const storage = StorageProviderFactory.create("local");
+
+ export async function saveDraft(draft: Draft): Promise<void> {
+   await storage.put(`draft:${draft.id}`, new Blob([JSON.stringify(draft)]));
+ }
+
++export async function exportDrafts(drafts: Draft[], zip: boolean, includeDeleted: boolean, notify: boolean) {
++  const selected = includeDeleted ? drafts : drafts.filter((d) => !d.deletedAt);
++  const file = zip ? await zipDrafts(selected) : toJsonFile(selected);
++  await downloadFile(file);
++  if (notify) showToast("Export complete");
++}
++
++export async function onExportClicked(drafts: Draft[]) {
++  await exportDrafts(drafts, true, false, true);
++}
+diff --git a/web/src/api/searchApi.ts b/web/src/api/searchApi.ts
+index a3b4c5d..b4c5d6e 100644
+--- a/web/src/api/searchApi.ts
++++ b/web/src/api/searchApi.ts
+@@ -1,3 +1,9 @@
++export interface SearchHitDto {
++  id: string;
++  title: string;
++  url: string;
++}
++
+ export async function search(query: string): Promise<SearchHitDto[]> {
+   return http.get(`/search?q=${encodeURIComponent(query)}`);
+ }
+diff --git a/web/src/api/feedApi.ts b/web/src/api/feedApi.ts
+index c5d6e7f..d6e7f8a 100644
+--- a/web/src/api/feedApi.ts
++++ b/web/src/api/feedApi.ts
+@@ -1,3 +1,9 @@
++export interface FeedItemDto {
++  id: string;
++  title: string;
++  url: string;
++}
++
+ export async function fetchFeed(page: number): Promise<FeedItemDto[]> {
+   return http.get(`/feed?page=${page}`);
+ }

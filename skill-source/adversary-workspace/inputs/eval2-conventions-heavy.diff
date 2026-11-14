@@ -1,0 +1,146 @@
+diff --git a/ios/Orders/Domain/GetOrdersUseCase.swift b/ios/Orders/Domain/GetOrdersUseCase.swift
+new file mode 100644
+index 0000000..1111111
+--- /dev/null
++++ b/ios/Orders/Domain/GetOrdersUseCase.swift
+@@ -0,0 +1,15 @@
++protocol GetOrdersUseCase {
++    func execute() async throws -> [Order]
++}
++
++final class DefaultGetOrdersUseCase: GetOrdersUseCase {
++    private let repository: OrdersRepository
++
++    init(repository: OrdersRepository) {
++        self.repository = repository
++    }
++
++    func execute() async throws -> [Order] {
++        try await repository.fetchOrders()
++    }
++}
+diff --git a/ios/Orders/Presentation/OrderRowFormatter.swift b/ios/Orders/Presentation/OrderRowFormatter.swift
+new file mode 100644
+index 0000000..2222222
+--- /dev/null
++++ b/ios/Orders/Presentation/OrderRowFormatter.swift
+@@ -0,0 +1,25 @@
++protocol OrderRowFormatting {
++    func row(for order: Order) -> OrderRow
++}
++
++struct OrderRowFormatter: OrderRowFormatting {
++    let currency: CurrencyFormatter
++
++    func row(for order: Order) -> OrderRow {
++        OrderRow(
++            id: order.id,
++            title: order.displayNumber,
++            amount: currency.string(fromMinorUnits: order.totalMinorUnits),
++            statusLabel: label(for: order.status)
++        )
++    }
++
++    private func label(for status: OrderStatus) -> String {
++        switch status {
++        case .pending: return OrdersStrings.statusPending
++        case .shipped: return OrdersStrings.statusShipped
++        case .delivered: return OrdersStrings.statusDelivered
++        case .cancelled: return OrdersStrings.statusCancelled
++        }
++    }
++}
+diff --git a/ios/Orders/Presentation/OrdersViewModel.swift b/ios/Orders/Presentation/OrdersViewModel.swift
+new file mode 100644
+index 0000000..3333333
+--- /dev/null
++++ b/ios/Orders/Presentation/OrdersViewModel.swift
+@@ -0,0 +1,30 @@
++import Foundation
++
++@MainActor
++final class OrdersViewModel: ObservableObject {
++    @Published private(set) var rows: [OrderRow] = []
++    @Published private(set) var latestOrderTitle = ""
++    @Published private(set) var showPaginationHint = false
++
++    private let getOrders: GetOrdersUseCase
++    private let formatter: OrderRowFormatting
++
++    init(getOrders: GetOrdersUseCase, formatter: OrderRowFormatting) {
++        self.getOrders = getOrders
++        self.formatter = formatter
++    }
++
++    func load() async {
++        do {
++            let orders = try await getOrders.execute()
++            rows = orders.map(formatter.row(for:))
++            latestOrderTitle = orders.first!.displayNumber
++            if orders.count > 50 {
++                showPaginationHint = true
++            }
++        } catch {
++            rows = []
++            Log.error("orders_load_failed", error: error)
++        }
++    }
++}
+diff --git a/ios/App/OrdersComposition.swift b/ios/App/OrdersComposition.swift
+new file mode 100644
+index 0000000..4444444
+--- /dev/null
++++ b/ios/App/OrdersComposition.swift
+@@ -0,0 +1,11 @@
++enum OrdersComposition {
++    @MainActor
++    static func makeOrdersViewModel() -> OrdersViewModel {
++        let env = AppEnvironment.shared
++        let repository = RemoteOrdersRepository(client: env.apiClient, cache: env.responseCache)
++        return OrdersViewModel(
++            getOrders: DefaultGetOrdersUseCase(repository: repository),
++            formatter: OrderRowFormatter(currency: CurrencyFormatter(locale: env.locale))
++        )
++    }
++}
+diff --git a/ios/OrdersTests/OrdersViewModelTests.swift b/ios/OrdersTests/OrdersViewModelTests.swift
+new file mode 100644
+index 0000000..5555555
+--- /dev/null
++++ b/ios/OrdersTests/OrdersViewModelTests.swift
+@@ -0,0 +1,35 @@
++import XCTest
++@testable import OrdersFeature
++
++@MainActor
++final class OrdersViewModelTests: XCTestCase {
++    func testLoad_mapsOrdersToRows() async {
++        let useCase = GetOrdersUseCaseMock(result: .success([.fixture(number: "A-100")]))
++        let formatter = OrderRowFormattingStub()
++        let sut = OrdersViewModel(getOrders: useCase, formatter: formatter)
++
++        await sut.load()
++
++        XCTAssertEqual(sut.rows.map(\.title), ["A-100"])
++    }
++
++    func testLoad_failure_clearsRows() async {
++        let useCase = GetOrdersUseCaseMock(result: .failure(TestError.network))
++        let formatter = OrderRowFormattingStub()
++        let sut = OrdersViewModel(getOrders: useCase, formatter: formatter)
++
++        await sut.load()
++
++        XCTAssertTrue(sut.rows.isEmpty)
++    }
++
++    func testLoad_manyOrders_showsPaginationHint() async {
++        let useCase = GetOrdersUseCaseMock(result: .success(Array(repeating: .fixture(), count: 60)))
++        let formatter = OrderRowFormattingStub()
++        let sut = OrdersViewModel(getOrders: useCase, formatter: formatter)
++
++        await sut.load()
++
++        XCTAssertTrue(sut.showPaginationHint)
++    }
++}
