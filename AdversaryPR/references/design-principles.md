@@ -491,13 +491,13 @@ want to.
 
 > **SRP: `ReportService` now also sends email**
 >
-> I noticed that `ReportService.generate()` now builds the report and also formats and sends the
-> email. Is there a reason the sending lives here rather than in its own class?
+> `ReportService.generate()` now builds the report and also formats and sends the email. Should the
+> sending live in its own class?
 >
-> The next change to the email wording or delivery means editing and re-testing report generation,
-> and the new send call can't be tested without a mail server.
+> The next change to the email words or delivery means editing and re-testing report code. And you
+> can't test the new send call without a mail server.
 >
-> Please take a look at the suggested fix below, unless this was intentional.
+> Here is one way to split it:
 >
 > ```java
 > Report report = build(request);
@@ -505,19 +505,19 @@ want to.
 > return report;
 > ```
 >
-> `ReportService` stays pure, and its current tests keep working unchanged.
+> `ReportService` stays simple, and its current tests keep working.
 
 **Strong, labeled as a judgment call:**
 
 > **YAGNI: `ExporterFactory` for a single exporter**
 >
-> Judgment call: I noticed that `ExporterFactory` and its registry add three types for the one CSV
-> exporter this ticket needs. Is a second format planned soon?
+> Judgment call: `ExporterFactory` and its registry add three types for the one CSV exporter this
+> ticket needs. Is a second format coming soon?
 >
-> Every reader has to trace through the factory today. The upside is a ready slot if a second format
-> lands.
+> Today, every reader has to trace through the factory. The good part is a ready slot if a second
+> format lands.
 >
-> Please take a look at the suggested fix below, unless this was intentional.
+> You could call the exporter directly:
 >
 > ```java
 > new CsvExporter().export(orders, out);

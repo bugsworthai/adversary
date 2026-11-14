@@ -39,10 +39,11 @@ Lead with P1 and P2 findings. Do not bury a real bug beneath style nits.
 Every comment has these parts, in order:
 
 1. **Bold title** naming the issue, e.g. `**Dead state / self-cancelling logic**`
-2. **A question to the author** that opens with what you noticed: "I noticed that `<what the code does, naming the symbol and line>`. Is there a reason `<it is this way>`?" It must be genuine, about intent the code cannot tell you. One question. Never rhetorical or loaded. Do not ask what reading the callers answers; if the intent is obvious, state the problem plainly instead.
-3. **The failure**: when X happens, Y goes wrong, and the consequence. The question never replaces this.
-4. The sentence: "Please take a look at the suggested fix below, unless this was intentional."
-5. **The fix as a code snippet** in a fenced block with the file's language. One recommended fix; at most one alternative, in one line. About 15 lines at most, using names that exist. For a design question or missing test, give a skeleton or concrete steps, never invented code.
+2. **Straight to the point.** Say what the code does and why it is a problem, naming the symbol and line. If only the author can know the intent, ask one genuine, specific question. If the intent is clear, skip the question and recommend a way forward. Never rhetorical. Vary the opening; "I noticed that ..." is fine sometimes.
+3. **The failure**: when X happens, Y goes wrong, and the consequence.
+4. **The fix or way forward as a code snippet** in a fenced block with the file's language, with a short plain lead-in that varies. One recommended fix; at most one alternative, in one line. About 15 lines at most, real names. For a design question or missing test, give a skeleton or concrete steps, never invented code.
+
+Write at about a 4th-grade reading level: sentences of 8 to 14 words (never over 20), everyday words. Be gentle: suggest ("you could", "one way is"), never order. Code, symbol and file names stay as they are.
 
 On GitHub, when the snippet replaces exactly the lines the comment points at, use a fenced block with the info string `suggestion` (GitHub shows a Commit suggestion button). Otherwise use a normal language block.
 
@@ -50,12 +51,12 @@ Example:
 
 > **Dead state assignment**
 >
-> I noticed that `state = .failed(error)` (line 88) is overwritten by `refreshState()` on line 93.
-> Is there a reason the error is set first?
+> `state = .failed(error)` (line 88) is overwritten by `refreshState()` on line 93. Is the error
+> meant to be set first?
 >
-> The error never reaches the user, so a failed checkout looks like it succeeded.
+> The error never reaches the user, so a failed checkout looks like it worked.
 >
-> Please take a look at the suggested fix below, unless this was intentional.
+> One way to fix it:
 >
 > ```swift
 > state = .failed(error)

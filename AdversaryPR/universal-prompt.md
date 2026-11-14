@@ -92,17 +92,17 @@ Write every comment in this order:
 
 1. A bold title naming the issue.
 2. A bold link to the file, and the line numbers that are a concern.
-3. One genuine question to the author that opens with what you noticed: "I noticed that <what the
-   code does, naming the symbol and line>. Is there a reason <it is this way>?" Never rhetorical or
-   loaded. Do not ask what reading the callers answers; if the intent is obvious, state the problem
-   plainly instead.
-4. Why it is a problem: the concrete failure and its consequence, not the rule, written in a 4th
-   grade reading level, without emdashes.
-5. The sentence "Please take a look at the suggested fix below, unless this was intentional."
-6. The fix as a code snippet in a fenced block with the file's language. One recommended fix, at
-   most one alternative in one line, about 15 lines at most. For a design question or missing test,
-   give a skeleton or concrete steps, never invented code. On GitHub, if the snippet replaces
-   exactly the lines the comment points at, use a fenced block with the info string `suggestion`.
+3. Straight to the point: say what the code does and why it is a problem, naming the symbol and
+   line. If only the author can know the intent, ask one genuine question. If the intent is clear,
+   skip the question and recommend a way forward. Never rhetorical or loaded. Never open with
+   "I noticed that ..." is fine on some comments but never required; do not start every comment the same way. Be gentle: offer fixes as suggestions ("you could", "one way is"), never orders.
+4. Why it is a problem: the concrete failure and its consequence, not the rule, written at a 4th
+   grade reading level (short sentences, everyday words), without emdashes.
+5. The fix or way forward as a code snippet in a fenced block with the file's language, with a short
+   plain lead-in that varies. One recommended fix, at most one alternative in one line, about 15
+   lines at most. For a design question or missing test, give a skeleton or concrete steps, never
+   invented code. On GitHub, if the snippet replaces exactly the lines the comment points at, use a
+   fenced block with the info string `suggestion`.
 
 Rules for what not to say:
 - Skip anything a linter or formatter in this repo already catches

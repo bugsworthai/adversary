@@ -2,9 +2,10 @@
 
 The AdversaryPR Claude skill, split into the two things GitHub Copilot actually understands.
 
-**Matches skill version 2.11.0.** That covers the careful, thorough review approach, the language rules, the design checks
-(SOLID, DRY, YAGNI, anti-patterns), and the comment format: every comment is question-led (it opens with what the
-reviewer noticed and asks the author a genuine question), states the failure, and ends with a fix as a code snippet.
+**Matches skill version 2.12.0.** That covers the careful, thorough review approach, the language rules, the design checks
+(SOLID, DRY, YAGNI, anti-patterns), and the comment format: every comment gets to the point (it asks the author a short
+question only when it helps), states the failure, and ends with a fix as a code snippet, in plain words
+(about a 4th-grade reading level).
 On GitHub, a fix that replaces exactly the lines it points at is posted as a suggested change (a Commit suggestion
 button). The port covers the review rules for Copilot code review (`instructions/`) and the Azure DevOps flow in the
 prompt file (`prompts/adversary.prompt.md`). The skill's release notes (`SKILL.md` in `adversary.skill`) list what
@@ -34,8 +35,8 @@ AdversaryPR/
     └── anti-patterns.md                          (anti-pattern catalog)
 ```
 
-`references/` holds copies of the two reference files from skill version 2.11.0
-(`versions/2.11.0/references/ inside `adversary.skill`), with the file pointers reworded for Copilot. Each
+`references/` holds copies of the two reference files from skill version 2.12.0
+(`versions/2.12.0/references/ inside `adversary.skill`), with the file pointers reworded for Copilot. Each
 principle and anti-pattern gets a before/after example and a "don't flag" list. All examples are
 generic (orders, invoices, exports) rather than taken from any real codebase. Append them to the
 universal prompt when a tool accepts a long prompt. When the skill ships a new version, re-copy them.
@@ -91,7 +92,7 @@ Every file is standalone. In the iOS repo, keep `review-style`, `ios-swift`, and
 delete the rest — fewer irrelevant rules in context means better-targeted comments.
 
 Keep `adversarypr-review-style.instructions.md` everywhere. It carries the P1–P5 severity model and
-the question-led comment format that the language files assume.
+the comment format that the language files assume.
 
 Keep `adversarypr-design-principles` and `adversarypr-anti-patterns` everywhere too. They apply to
 every language, and each opens with the gates that keep design comments from turning into noise:

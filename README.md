@@ -31,7 +31,7 @@
 AdversaryPR reads a pull request carefully, checks what the code actually does, and drafts inline review comments for you to approve. It is on your side and on the author's side: a calm second pair of eyes for both sides of the code.
 
 - **It checks every change.** It asks "what if" about empty input, error paths, retries, concurrency, partial failure, upgrade and rollback. It compares the title, description, names, comments and passing tests with what the code does. It reads the callers, and it looks for what the diff is missing.
-- **A clear reason and a fix in every comment.** Each comment sits on the exact line, asks the author about the code first (question-led), names the failure scenario or cost, and shows one recommended fix as a code snippet.
+- **A clear reason and a fix in every comment.** Each comment sits on the exact line, gets to the point in plain words, asks the author a short question when it helps, names the failure scenario or cost, and shows one recommended fix as a code snippet.
 - **Several PRs at once.** In Claude Code each PR gets its own background review agent, all running at the same time, and you approve from one combined preview.
 - **Your languages and your repo's conventions.** Swift, Kotlin, Java, Python, Go and TypeScript, with design checks for SOLID (SRP in depth), DRY, YAGNI and an anti-pattern catalog. It also reads `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING.md` and Copilot instruction files from the PR's repo.
 - **You stay in control.** You see a preview of every comment, then pick which ones go to the PR. Nothing posts until you approve it, and `dry run` posts nothing.
@@ -44,9 +44,11 @@ This is a made-up export example. It is what lands on the line in your pull requ
 >
 > **Possible crash on a missing order**
 >
-> I noticed that `order.total` is read without checking whether `db.orders.find` found the order. Is there a reason it is assumed to exist? If an order is deleted after the export is queued, `find` returns `undefined`, `order.total` throws, and the export stops halfway through the file.
+> `order.total` is read before checking that `db.orders.find` found the order. Can the order ever be missing?
 >
-> Please take a look at the suggested fix below, unless this was intentional.
+> If an order is deleted after the export is queued, `find` returns `undefined`. Then `order.total` throws, and the export stops halfway through the file.
+>
+> Here is one way to skip it and keep going:
 >
 > ```ts
 > const order = await db.orders.find(id);
@@ -61,7 +63,7 @@ Every comment has the same shape:
 | Part | What it does |
 |---|---|
 | Title | Says the problem in a few words |
-| Question | "I noticed that ... Is there a reason ...?" so the author can say it was intentional |
+| Question (when it helps) | A short question, only when the author is the one who knows the answer, so they can say it was intentional |
 | Failure | A concrete scenario or a named cost, never a vague "consider refactoring" |
 | Fix | One recommended fix as a code snippet with the exact changed lines, or a pointer to a pattern already in your repo |
 | Signature | Comments post as you, signed with your name |

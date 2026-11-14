@@ -231,16 +231,17 @@ POST {API_BASE}/pullRequests/{PR_ID}/threads?api-version=7.1
 **Comment format** — in this order:
 
 1. A **bold title** naming the issue.
-2. **A question to the author** that opens with what you noticed: "I noticed that `<what the code
-   does, naming the symbol and line>`. Is there a reason `<it is this way>`?" It must be genuine and
-   specific, about intent the code cannot tell you. One question. Never rhetorical or loaded. Do not
-   ask what reading the callers answers; if the intent is obvious, state the problem plainly.
-3. **The failure**: when X happens, Y goes wrong, and the consequence. The question never replaces it.
-4. The sentence: `Please take a look at the suggested fix below, unless this was intentional.`
-5. **The fix as a code snippet** in a fenced block with the file's language. One recommended fix; at
-   most one alternative, in one line. About 15 lines at most, using names that exist in the
-   surrounding code. For a design question or a missing test, give a skeleton or concrete steps,
-   never invented code.
+2. **Straight to the point.** Say what the code does and why it is a problem, naming the symbol and
+   line. If only the author can know the intent, ask one genuine, specific question. If the intent
+   is clear, skip the question and recommend a way forward. Never rhetorical or loaded. Never open
+   "I noticed that ..." is fine on some comments but never required; do not start every comment the same way. Be gentle: offer fixes as suggestions ("you could", "one way is"), never orders.
+3. **The failure**: when X happens, Y goes wrong, and the consequence.
+4. **The fix or way forward as a code snippet** in a fenced block with the file's language, with a
+   short plain lead-in that varies. One recommended fix; at most one alternative, in one line. About
+   15 lines at most, using names that exist in the surrounding code. For a design question or a
+   missing test, give a skeleton or concrete steps, never invented code.
+5. Write at about a 4th-grade reading level: sentences of 8 to 14 words (never over 20), everyday
+   words, active voice. Code, symbol and file names stay as they are.
 6. **Signature.** After a blank line, one closing line:
    `Comment by <ADO username> using Adversary ([adversarypr.com](https://adversarypr.com))`
    Use the username from Step 1. Show it in the preview exactly as it will be posted.
