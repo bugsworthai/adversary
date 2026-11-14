@@ -86,7 +86,6 @@ To make a change, cut a new version:
 4. **Build:** `python3 tools/build_skill.py --install`. This checks everything, writes `adversary.skill`, and installs it locally.
 5. **Test** (below), then upload `adversary.skill` to the org.
 6. **Update the Copilot port** if the rules changed (below).
-7. **Add the version to the collector:** add it to `KNOWN_VERSIONS` in the private web repo's `functions/constants.py` (latest: 2.10.0) and redeploy the collector (that repo's test fails if you forget).
 
 **Rules the build checks for you:**
 - The frontmatter may only use `name`, `description`, `license`, `compatibility`, `metadata`, and `allowed-tools`. Org uploads reject other keys, such as `model:`.
@@ -106,9 +105,9 @@ Opt-in, off until the user says yes. The dispatcher (`SKILL.md` Step 0 item 6) r
 - **Sent when on:** schema version, event `run`, skill version, and `dry_run`, `html`, `model` (`default`/`haiku`/`sonnet`/`opus`/`fable`), `version_pinned`. Nothing else: no code, PR content or numbers, repo/org/project names, usernames, token, paths, machine or install ID. `telemetry.py preview --version X ...` prints the exact JSON.
 - **Turn off:** `python3 ~/.claude/skills/adversary/scripts/telemetry.py set off`, or `ADVERSARY_TELEMETRY=0` / `DO_NOT_TRACK=1` (these also stop the question).
 - **Never blocks a review:** 2 second timeout, every error swallowed, no output.
-- **Collector:** the private web repo's `functions/` (Firebase Functions 2nd gen, Python) stores per-day counters only, and does not write IP addresses to its database; hosting request logs may still hold them briefly. Deploy steps and the abuse caveat (no rate limiting or App Check yet) are in that repo's `functions/README.md`. The endpoint `https://adversarypr.com/api/collect` is not live until the client deploys it; until then sends fail silently.
+- **Where counts go:** a Firestore counter in the Firebase project `adversarypr` (free plan, no server code). Each run raises one counter, named by day, version, model and option flags, by exactly one. The security rules in the private web repo (`firestore.rules`) allow only that, and `tools/test_rules.py` there tests them against the local emulator. Counts are read in the Firebase console. The web API key in `telemetry_constants.py` only identifies the project; restrict it to the Cloud Firestore API in Google Cloud Console. Anyone can raise counters (no server to rate-limit), so treat the numbers as rough.
 - **Offline tests never send:** set `ADVERSARY_TELEMETRY=0` and skip the telemetry step (the test prompt below says so).
-- **Tests:** `python3 -m unittest tools/tests/test_telemetry.py` here, and `cd functions && python3 -m unittest discover -s tests` in the web repo.
+- **Tests:** `python3 -m unittest tools/tests/test_telemetry.py` here, and, in the web repo, `firebase emulators:exec --only firestore --project demo-adversarypr "python3 tools/test_rules.py"` (needs Java).
 
 ## Comment format 
 

@@ -12,6 +12,7 @@ import os
 import re
 import sys
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 try:
@@ -72,10 +73,30 @@ def build_payload(version: str, dry_run: bool = False, html: bool = False,
     return payload
 
 
+def counter_id(payload: dict, now=None) -> str:
+    """The id of the one counter this run adds to: day, version, model, and three 0/1 option flags."""
+    now = now or datetime.now(timezone.utc)
+    flags = "".join("1" if payload[k] else "0" for k in (C.KEY_DRY_RUN, C.KEY_HTML, C.KEY_VERSION_PINNED))
+    version = payload[C.KEY_VERSION].replace(C.DOT, C.DOT_REPLACEMENT)
+    return C.ID_JOINER.join((now.strftime(C.DAY_FORMAT), version, payload[C.KEY_MODEL], flags))
+
+
+def build_request(payload: dict, now=None) -> dict:
+    """The Firestore commit body: raise one counter by one. Nothing from the payload except its id."""
+    name = C.FIRESTORE_DOC_PATH % (C.FIRESTORE_PROJECT, C.FIRESTORE_COLLECTION, counter_id(payload, now))
+    return {
+        "writes": [{
+            "update": {"name": name},
+            "updateMask": {"fieldPaths": []},
+            "updateTransforms": [{"fieldPath": C.FIRESTORE_FIELD, "increment": {"integerValue": "1"}}],
+        }]
+    }
+
+
 def send(payload: dict) -> bool:
-    """POST the payload. Returns True on success. Swallows every error."""
+    """Raise the counter by one. Returns True on success. Swallows every error."""
     try:
-        body = json.dumps(payload).encode(C.ENCODING)
+        body = json.dumps(build_request(payload)).encode(C.ENCODING)
         req = urllib.request.Request(C.ENDPOINT_URL, data=body, method=C.HTTP_METHOD)
         req.add_header(C.CONTENT_TYPE_HEADER, C.CONTENT_TYPE_JSON)
         with urllib.request.urlopen(req, timeout=C.TIMEOUT_SECONDS) as resp:
@@ -136,7 +157,7 @@ def main(argv=None) -> int:
         except ValueError as exc:
             print(str(exc), file=sys.stderr)
             return C.EXIT_USAGE
-        print(json.dumps(payload, indent=C.JSON_INDENT))
+        print(json.dumps(build_request(payload), indent=C.JSON_INDENT))
     else:
         parser.print_help()
         return C.EXIT_USAGE

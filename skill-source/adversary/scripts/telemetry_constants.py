@@ -1,7 +1,21 @@
 """Every string used by telemetry.py lives here. Standard library only, Python 3.8+."""
 
-# Where counts go. A Firebase Hosting rewrite to the `collect` function.
-ENDPOINT_URL = "https://adversarypr.com/api/collect"
+# Where counts go: one Firestore counter per day, version, model and option combination, raised by
+# one with the Firestore REST API. The web API key below only identifies the project; the security
+# rules in the web repo decide what a write may do (create a counter at 1, or raise it by exactly 1).
+FIRESTORE_PROJECT = "adversarypr"
+FIRESTORE_API_KEY = "AIzaSyDVSGjqZpW9ruMw5SgpokCQ6tGXJJInxhs"
+FIRESTORE_COLLECTION = "usage"
+FIRESTORE_FIELD = "runs"
+FIRESTORE_DOC_PATH = "projects/%s/databases/(default)/documents/%s/%s"
+ENDPOINT_URL = (
+    "https://firestore.googleapis.com/v1/projects/" + FIRESTORE_PROJECT
+    + "/databases/(default)/documents:commit?key=" + FIRESTORE_API_KEY
+)
+DAY_FORMAT = "%Y-%m-%d"
+ID_JOINER = "_"
+DOT = "."
+DOT_REPLACEMENT = "_"
 TIMEOUT_SECONDS = 2
 HTTP_METHOD = "POST"
 CONTENT_TYPE_HEADER = "Content-Type"

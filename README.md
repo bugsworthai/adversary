@@ -127,7 +127,7 @@ Add `html` to a run (`/adversary 38842 ; html`) and the review opens as a web pa
 
 ### Claude Code
 
-Unzip into your skills folder, then type `/adversary` with a PR number or link (Azure DevOps or GitHub).
+[Download `adversary.skill`](https://github.com/bugsworthcode/adversary/releases/latest/download/adversary.skill) from the latest release, unzip it into your skills folder, then type `/adversary` with a PR number or link (Azure DevOps or GitHub).
 
 ```bash
 unzip adversary.skill -d ~/.claude/skills/
@@ -187,7 +187,7 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 - **Your token stays home.** All Azure DevOps and GitHub calls happen up front, in your session. The review agents never receive the token and never call either service. On GitHub it can use your `gh` CLI login, so there may be no token handling at all.
 - **Nothing posts until you approve it.** You pick the comments. `dry run` posts nothing.
 
-**Usage counts are opt-in.** Anonymous usage counts are off until you say yes. The skill asks once. If you agree, it sends the skill version and which options you used (dry run, html, model, pinned version) and nothing else: no code, no PR content, no repo or org names, no token. Turn it off any time.
+**Usage counts are opt-in.** Anonymous usage counts are off until you say yes. The skill asks once. If you agree, it sends the skill version and which options you used (dry run, html, model, pinned version) and nothing else: no code, no PR content, no repo or org names, no token. Turn it off any time. The counts go to a daily counter hosted on Google Firebase, so Google's servers see the connection like any website.
 
 ## Built for engineers
 

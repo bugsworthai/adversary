@@ -90,12 +90,41 @@ class PayloadTests(Base):
         with self.assertRaises(ValueError):
             T.build_payload("2.5.0", model="gpt")
 
-    def test_preview_prints_payload_and_sends_nothing(self):
-        with mock.patch.object(T.urllib.request, "urlopen") as uo:
+    def test_preview_prints_the_request_and_sends_nothing(self):
+        with mock.patch.object(T.urllib.request, "urlopen") as uo, \
+                mock.patch.object(T, "counter_id", return_value="2026-01-02_2_5_0_opus_100"):
             code, out = self.run_main("preview", "--version", "2.5.0", "--dry-run", "--model", "opus")
+            expected = T.build_request(T.build_payload("2.5.0", True, False, "opus", False))
         uo.assert_not_called()
         self.assertEqual(code, 0)
-        self.assertEqual(json.loads(out), T.build_payload("2.5.0", True, False, "opus", False))
+        self.assertEqual(json.loads(out), expected)
+
+    def test_counter_id_format(self):
+        from datetime import datetime, timezone
+        now = datetime(2026, 11, 14, 23, 59, tzinfo=timezone.utc)
+        p = T.build_payload("2.13.0", True, False, "haiku", True)
+        self.assertEqual(T.counter_id(p, now), "2026-11-14_2_13_0_haiku_101")
+        p = T.build_payload("10.2.3")
+        self.assertEqual(T.counter_id(p, now), "2026-11-14_10_2_3_default_000")
+
+    def test_counter_id_matches_the_firestore_rule_pattern(self):
+        # Same pattern as validId() in the web repo's firestore.rules.
+        pattern = r"^20[0-9]{2}-[01][0-9]-[0-3][0-9]_[0-9]{1,3}_[0-9]{1,3}_[0-9]{1,3}_(default|haiku|sonnet|opus|fable)_[01]{3}$"
+        for model in C.MODELS:
+            for flags in ((0, 0, 0), (1, 1, 1), (0, 1, 0)):
+                p = T.build_payload("2.13.0", bool(flags[0]), bool(flags[1]), model, bool(flags[2]))
+                self.assertRegex(T.counter_id(p), pattern)
+
+    def test_request_raises_one_counter_and_carries_nothing_else(self):
+        body = T.build_request(T.build_payload("2.5.0", True, True, "sonnet", True))
+        self.assertEqual(list(body), ["writes"])
+        self.assertEqual(len(body["writes"]), 1)
+        w = body["writes"][0]
+        self.assertEqual(set(w), {"update", "updateMask", "updateTransforms"})
+        self.assertEqual(set(w["update"]), {"name"})  # no fields: nothing but the counter's name
+        self.assertEqual(w["updateMask"], {"fieldPaths": []})
+        self.assertEqual(w["updateTransforms"], [{"fieldPath": "runs", "increment": {"integerValue": "1"}}])
+        self.assertIn("/usage/", w["update"]["name"])
 
 
 class SendTests(Base):
@@ -114,7 +143,7 @@ class SendTests(Base):
             self.run_main("send", "--version", "2.5.0")
         uo.assert_not_called()
 
-    def test_send_posts_same_payload_as_preview(self):
+    def test_send_posts_the_request_the_preview_shows(self):
         self.run_main("set", "on")
         captured = {}
 
@@ -126,12 +155,12 @@ class SendTests(Base):
             return io.BytesIO(b"")
 
         args = ("--version", "2.5.0", "--html", "--model", "sonnet", "--pinned")
-        with mock.patch.object(T.urllib.request, "urlopen", fake):
+        with mock.patch.object(T, "counter_id", return_value="2026-01-02_2_5_0_sonnet_011"), \
+                mock.patch.object(T.urllib.request, "urlopen", fake):
             code, out = self.run_main("send", *args)
-        _, preview = self.run_main("preview", *args)
+            _, preview = self.run_main("preview", *args)
         self.assertEqual((code, out), (0, ""))
         self.assertEqual(captured["body"], json.loads(preview))
-        self.assertEqual(set(captured["body"]), ALLOWED)
         self.assertEqual(captured["timeout"], 2)
         self.assertEqual(captured["method"], "POST")
         self.assertEqual(captured["url"], C.ENDPOINT_URL)
