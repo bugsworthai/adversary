@@ -195,7 +195,7 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 
 **Better engineers, one review at a time.** Each comment explains what could go wrong and why, then shows the fix, so every review is a short lesson and you pick up the failure patterns as you go. That is how it works. We have no measured improvement data yet, so we make no claim about results.
 
-**Who builds it:** `[PLACEHOLDER: who builds AdversaryPR, one honest paragraph]`
+**Who builds it:** AdversaryPR is made by Bugsworth, LLC. It is free and open source under the MIT licence, and it was built with help from Claude, Anthropic's AI. Optional donations help cover the time and AI tokens it takes to build, test and improve it. The skill works exactly the same whether or not you donate.
 
 **Questions, bugs, ideas?** [Open an issue on GitHub](https://github.com/bugsworthcode/adversary/issues)
 
@@ -204,7 +204,7 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to use them.
 
 - **Licence:** code under the [MIT](LICENSE) licence, copyright Bugsworth, LLC. The name and logos are covered separately in [TRADEMARKS.md](TRADEMARKS.md).
-- **Support the project:** donations are optional and voluntary. They help cover the time and the AI tokens it takes to build, test and improve it. The skill works the same whether or not you donate. `[DONATE LINK: add GitHub Sponsors / Ko-fi / other, not set up yet]`
+- **Support the project:** donations are optional and voluntary. They help cover the time and the AI tokens it takes to build, test and improve it. The skill works the same whether or not you donate. Ways to support the project are coming soon.
 - **Hosted team endpoint:** coming, waitlist only. It is not live, and details and any pricing are not decided.
 
 ## Latest release
