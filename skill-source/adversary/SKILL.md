@@ -7,7 +7,7 @@ description: A careful second pair of eyes for Azure DevOps and GitHub pull requ
 
 This file chooses which version of AdversaryPR runs, then hands off to it. The review instructions live in `versions/<version>/instructions.md`. Released versions are frozen and never change after release, so `version=1.1.0` behaves the same next year as it does today.
 
-**Latest version: 2.12.0**
+**Latest version: 2.13.0**
 
 ## Step 0 — Pick the version
 
@@ -17,7 +17,7 @@ Arguments are in `$ARGUMENTS`.
    - **No `version=`**, or `version=latest` → use the latest version above.
    - **`version=list`** → print the "Available versions" table and the release notes below, then stop. Don't review anything.
    - **An exact version** (`2.10.0`) → use it.
-   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.12.0` today.
+   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.13.0` today.
    - **No match, or anything else** → say the version doesn't exist, print the "Available versions" table, and stop. Never fall back to a different version silently, because the user asked for a specific one.
 
    A "released version" is a row in the Available versions table whose folder exists under `versions/`.
@@ -82,28 +82,36 @@ Older version:
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.12.0** (latest) | 2026-11-14 | Comments get to the point, in plain words (about a 4th-grade reading level) |
+| **2.13.0** (latest) | 2026-11-14 | The fix sentence is back; comments stay short, plain and gentle |
+| 2.12.0 | 2026-11-14 | Comments get to the point, in plain words (about a 4th-grade reading level) |
 | 2.11.0 | 2026-11-14 | Tidier comment signatures; the checks are unchanged |
 | 2.10.0 | 2026-11-14 | A bare PR number now uses the repo in your current folder |
 
 ```
-/adversary 38842                        → latest (2.12.0)
+/adversary 38842                        → latest (2.13.0)
 /adversary 38842 ; html                 → latest, plus a web-page preview
 /adversary 38842 ; model=haiku          → latest, reviewed by Haiku
 /adversary 38842 38901 39010 ; dry run  → latest, three PRs reviewed at the same time
 /adversary https://github.com/acme/orders-api/pull/101 ; dry run  → latest, a GitHub PR
 /adversary 38842 ; version=2.10.0       → exactly 2.10.0
-/adversary 38842 ; version=2            → newest 2.x (2.12.0)
+/adversary 38842 ; version=2            → newest 2.x (2.13.0)
 /adversary version=list                 → versions and release notes; no review
 ```
 
 ## Release notes
+### 2.13.0 — 2026-11-14
+
+**Changed**
+- The sentence "Please take a look at the suggested fix below, unless this was intentional." is back before every fix, as it was before 2.12.0. Everything else from 2.12.0 stays: comments get to the point, are written in plain, gentle words, and don't all open the same way.
+
+**Unchanged:** the checks, the evidence standard, severity, the HTML preview, `model=`, anonymous usage counts, and the rule that nothing posts without your approval.
+
 ### 2.12.0 — 2026-11-14
 
 **Changed**
 - **Comments get to the point.** They no longer all open with "I noticed that ..."; it is fine on some comments but never required. A comment says what is wrong, asks the author a short question when only the author can answer it, and suggests a fix or a way forward. When the answer is clear, it skips the question.
 - **Gentle and plain.** Fixes are offered as suggestions, not orders. Comments are written at about a 4th-grade reading level: short sentences and everyday words. Code and names stay as they are.
-- The fixed sentence "Please take a look at the suggested fix below, unless this was intentional." is gone. The fix still arrives as a code snippet, and on GitHub as a suggested change when it replaces exactly the lines it points at.
+- The fixed sentence "Please take a look at the suggested fix below, unless this was intentional." was dropped here (it returns in 2.13.0). The fix still arrives as a code snippet, and on GitHub as a suggested change when it replaces exactly the lines it points at.
 
 **Unchanged:** the checks, the evidence standard, severity, the HTML preview, `model=`, anonymous usage counts, and the rule that nothing posts without your approval.
 

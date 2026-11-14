@@ -497,7 +497,7 @@ want to.
 > The next change to the email words or delivery means editing and re-testing report code. And you
 > can't test the new send call without a mail server.
 >
-> Here is one way to split it:
+> Please take a look at the suggested fix below, unless this was intentional.
 >
 > ```java
 > Report report = build(request);
@@ -517,7 +517,7 @@ want to.
 > Today, every reader has to trace through the factory. The good part is a ready slot if a second
 > format lands.
 >
-> You could call the exporter directly:
+> Please take a look at the suggested fix below, unless this was intentional.
 >
 > ```java
 > new CsvExporter().export(orders, out);

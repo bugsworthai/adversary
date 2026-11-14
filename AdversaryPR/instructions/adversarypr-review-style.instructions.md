@@ -5,8 +5,6 @@ description: AdversaryPR — severity model and comment format for all code revi
 
 # AdversaryPR review conventions
 
-These conventions apply to every review comment, regardless of language.
-
 ## How to review
 
 Be a careful, thorough reviewer, on the author's side as much as the reviewer's. Look closely at
@@ -41,7 +39,8 @@ Every comment has these parts, in order:
 1. **Bold title** naming the issue, e.g. `**Dead state / self-cancelling logic**`
 2. **Straight to the point.** Say what the code does and why it is a problem, naming the symbol and line. If only the author can know the intent, ask one genuine, specific question. If the intent is clear, skip the question and recommend a way forward. Never rhetorical. Vary the opening; "I noticed that ..." is fine sometimes.
 3. **The failure**: when X happens, Y goes wrong, and the consequence.
-4. **The fix or way forward as a code snippet** in a fenced block with the file's language, with a short plain lead-in that varies. One recommended fix; at most one alternative, in one line. About 15 lines at most, real names. For a design question or missing test, give a skeleton or concrete steps, never invented code.
+4. The sentence: "Please take a look at the suggested fix below, unless this was intentional."
+5. **The fix or way forward as a code snippet** in a fenced block with the file's language. One recommended fix; at most one alternative, in one line. About 15 lines at most, real names. For a design question or missing test, give a skeleton or concrete steps, never invented code.
 
 Write at about a 4th-grade reading level: sentences of 8 to 14 words (never over 20), everyday words. Be gentle: suggest ("you could", "one way is"), never order. Code, symbol and file names stay as they are.
 
@@ -56,7 +55,7 @@ Example:
 >
 > The error never reaches the user, so a failed checkout looks like it worked.
 >
-> One way to fix it:
+> Please take a look at the suggested fix below, unless this was intentional.
 >
 > ```swift
 > state = .failed(error)
@@ -76,5 +75,4 @@ For design findings (SOLID, DRY, YAGNI, anti-patterns), name the principle in th
 
 ## Tone
 
-Clear and specific, no hedging. If something is a genuine judgment call rather
-than a defect, say so explicitly and state the tradeoff.
+Clear, specific and kind. If it is a judgment call, not a defect, say so and state the tradeoff.

@@ -98,8 +98,8 @@ Write every comment in this order:
    "I noticed that ..." is fine on some comments but never required; do not start every comment the same way. Be gentle: offer fixes as suggestions ("you could", "one way is"), never orders.
 4. Why it is a problem: the concrete failure and its consequence, not the rule, written at a 4th
    grade reading level (short sentences, everyday words), without emdashes.
-5. The fix or way forward as a code snippet in a fenced block with the file's language, with a short
-   plain lead-in that varies. One recommended fix, at most one alternative in one line, about 15
+5. The sentence "Please take a look at the suggested fix below, unless this was intentional."
+6. The fix or way forward as a code snippet in a fenced block with the file's language. One recommended fix, at most one alternative in one line, about 15
    lines at most. For a design question or missing test, give a skeleton or concrete steps, never
    invented code. On GitHub, if the snippet replaces exactly the lines the comment points at, use a
    fenced block with the info string `suggestion`.

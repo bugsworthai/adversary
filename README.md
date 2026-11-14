@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <sub>Latest version <strong>2.11.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
+  <sub>Latest version <strong>2.13.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
 </p>
 
 ---
@@ -48,7 +48,7 @@ This is a made-up export example. It is what lands on the line in your pull requ
 >
 > If an order is deleted after the export is queued, `find` returns `undefined`. Then `order.total` throws, and the export stops halfway through the file.
 >
-> Here is one way to skip it and keep going:
+> Please take a look at the suggested fix below, unless this was intentional.
 >
 > ```ts
 > const order = await db.orders.find(id);
@@ -65,6 +65,7 @@ Every comment has the same shape:
 | Title | Says the problem in a few words |
 | Question (when it helps) | A short question, only when the author is the one who knows the answer, so they can say it was intentional |
 | Failure | A concrete scenario or a named cost, never a vague "consider refactoring" |
+| Lead-in | "Please take a look at the suggested fix below, unless this was intentional." |
 | Fix | One recommended fix as a code snippet with the exact changed lines, or a pointer to a pattern already in your repo |
 | Signature | Comments post as you, signed with your name |
 
@@ -157,7 +158,7 @@ Options go after the first `;` and combine freely.
 
 | Command | What it does |
 |---|---|
-| `/adversary 38842` | Review one PR with the latest version (2.11.0). |
+| `/adversary 38842` | Review one PR with the latest version (2.13.0). |
 | `/adversary 38842 ; html` | Latest, plus a web-page preview with each comment next to the code it points at. |
 | `/adversary 38842 ; model=haiku` | Latest, reviewed by Haiku. Also `sonnet`, `opus`, `fable`. |
 | `/adversary 38842 38901 39010 ; dry run` | Three PRs reviewed at the same time. Nothing is posted. |
@@ -202,7 +203,7 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 
 AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to use them.
 
-- **Licence:** [MIT](LICENSE)
+- **Licence:** code under the [MIT](LICENSE) licence, copyright Bugsworth, LLC. The name and logos are covered separately in [TRADEMARKS.md](TRADEMARKS.md).
 - **Support the project:** donations are optional and voluntary. They help cover the time and the AI tokens it takes to build, test and improve it. The skill works the same whether or not you donate. `[DONATE LINK: add GitHub Sponsors / Ko-fi / other, not set up yet]`
 - **Hosted team endpoint:** coming, waitlist only. It is not live, and details and any pricing are not decided.
 
@@ -210,7 +211,7 @@ AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.11.0** | 2026-11-14 | Tidier comment signatures; the checks are unchanged |
+| **2.13.0** | 2026-11-14 | The fix sentence is back; comments stay short, plain and gentle |
 
 ## Contributing
 

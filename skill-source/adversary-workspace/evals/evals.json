@@ -31,7 +31,8 @@
         "The footer's address is a markdown link to https://adversarypr.com, written `[adversarypr.com](https://adversarypr.com)`",
         "The comments do not all open the same way (`I noticed that ...` may start some, but not all, and is never required); each gets to the point in its first sentence or two",
         "Where only the author can know the intent, the comment asks one genuine, specific question; where the code already shows the intent, it states the problem and a way forward without a forced question",
-        "The comment text is plain: short sentences (most under 15 words, none over 25) and everyday words, at about a 4th-grade reading level, and gentle: fixes are offered as suggestions ("you could", "one way is"), never orders; code and names are left as they are",
+        "The comment text is plain: short sentences (most under 15 words, none over 25) and everyday words, at about a 4th-grade reading level, and gentle: fixes are offered as suggestions (\"you could\", \"one way is\"), never orders; code and names are left as they are",
+        "Every P1 and P2 comment contains the sentence `Please take a look at the suggested fix below, unless this was intentional.`",
         "Every P1 and P2 comment shows the fix in a fenced code block (a language block or a ```diff block), not only in prose",
         "No comment uses a ```suggestion block (Azure DevOps has no suggested-change feature)"
       ]
@@ -57,7 +58,8 @@
         "Does not apply project-specific iOS rules (AppLog logger, FeatureFlags gate) that this repo's conventions don't define",
         "The comments do not all open the same way (`I noticed that ...` may start some, but not all, and is never required); each gets to the point in its first sentence or two",
         "Where only the author can know the intent, the comment asks one genuine, specific question; where the code already shows the intent, it states the problem and a way forward without a forced question",
-        "The comment text is plain: short sentences (most under 15 words, none over 25) and everyday words, at about a 4th-grade reading level, and gentle: fixes are offered as suggestions ("you could", "one way is"), never orders; code and names are left as they are",
+        "The comment text is plain: short sentences (most under 15 words, none over 25) and everyday words, at about a 4th-grade reading level, and gentle: fixes are offered as suggestions (\"you could\", \"one way is\"), never orders; code and names are left as they are",
+        "Every P1 and P2 comment contains the sentence `Please take a look at the suggested fix below, unless this was intentional.`",
         "Every P1 and P2 comment shows the fix in a fenced code block (a language block or a ```diff block), not only in prose",
         "No comment uses a ```suggestion block (Azure DevOps has no suggested-change feature)"
       ]
@@ -117,7 +119,8 @@
         "Still flags ReadOnlyPlaylist.add() throwing and CartSummary money in Double at P1",
         "The comments do not all open the same way (`I noticed that ...` may start some, but not all, and is never required); each gets to the point in its first sentence or two",
         "Where only the author can know the intent, the comment asks one genuine, specific question; where the code already shows the intent, it states the problem and a way forward without a forced question",
-        "The comment text is plain: short sentences (most under 15 words, none over 25) and everyday words, at about a 4th-grade reading level, and gentle: fixes are offered as suggestions ("you could", "one way is"), never orders; code and names are left as they are",
+        "The comment text is plain: short sentences (most under 15 words, none over 25) and everyday words, at about a 4th-grade reading level, and gentle: fixes are offered as suggestions (\"you could\", \"one way is\"), never orders; code and names are left as they are",
+        "Every P1 and P2 comment contains the sentence `Please take a look at the suggested fix below, unless this was intentional.`",
         "Every P1 and P2 comment shows the fix in a fenced code block (a language block or a ```diff block), not only in prose",
         "Any ```suggestion block replaces exactly the anchored line or range (the finding's `line`, or `startLine` to `line`), and its finding in findings.json has `suggestion: true`; every other finding does not",
         "A fix that is not an exact replacement of the anchored lines (it touches other lines or files) uses a normal language-tagged block, not ```suggestion",
