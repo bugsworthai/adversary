@@ -14,6 +14,13 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/bugsworthcode/adversary/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/bugsworthcode/adversary?style=flat-square&color=d60f2c&labelColor=0b0e13"></a>
+  <a href="LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-d60f2c?style=flat-square&labelColor=0b0e13"></a>
+  <img alt="Works with Claude Code and GitHub Copilot" src="https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20GitHub%20Copilot-d60f2c?style=flat-square&labelColor=0b0e13">
+  <img alt="Azure DevOps and GitHub" src="https://img.shields.io/badge/reviews-Azure%20DevOps%20%C2%B7%20GitHub-d60f2c?style=flat-square&labelColor=0b0e13">
+</p>
+
+<p align="center">
   <a href="#install-and-use">Download</a> ·
   <a href="#what-a-comment-looks-like">See a sample comment</a> ·
   <a href="#how-a-review-runs">How it works</a> ·
@@ -22,6 +29,10 @@
 
 <p align="center">
   <sub>Latest version <strong>2.13.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
+</p>
+
+<p align="center">
+  <img alt="Asks before it tells. Shows the fix as code. You stay in control." src="assets/features.svg" width="900">
 </p>
 
 ---
@@ -168,6 +179,10 @@ Together: `/adversary 38842 38901 ; dry run ; html ; model=sonnet`
 
 ### How a review runs
 
+<p align="center">
+  <img alt="Install, point it at a PR, it checks each change, you read the preview, you pick what posts." src="assets/flow.svg" width="900">
+</p>
+
 1. Install the skill in Claude Code or your Claude app.
 2. Point it at a PR: `/adversary 38842`.
 3. It checks every change and drafts the comments, each with a clear reason and a suggested fix.
@@ -187,7 +202,7 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 - **Your token stays home.** All Azure DevOps and GitHub calls happen up front, in your session. The review agents never receive the token and never call either service. On GitHub it can use your `gh` CLI login, so there may be no token handling at all.
 - **Nothing posts until you approve it.** You pick the comments. `dry run` posts nothing.
 
-**Usage counts are opt-in.** Anonymous usage counts are off until you say yes. The skill asks once. If you agree, it sends the skill version and which options you used (dry run, html, model, pinned version) and nothing else: no code, no PR content, no repo or org names, no token. Turn it off any time. The counts go to a daily counter hosted on Google Firebase, so Google's servers see the connection like any website.
+**Usage counts are opt-in.** Anonymous usage counts are off until you say yes. The skill asks once. If you agree, it sends the skill version and which options you used (dry run, html, model, pinned version) and nothing else: no code, no PR content, no repo or org names, no token. Turn it off any time. The counts go to a daily counter hosted on Google Firebase, so Google's servers see the connection like any website. The website also keeps a daily count of clicks on its download buttons, with no cookies and no IDs, and it stays off if your browser sends Do Not Track.
 
 ## Built for engineers
 
