@@ -212,7 +212,7 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 
 **Who builds it:** AdversaryPR is made by Bugsworth, LLC. It is free and open source under the MIT licence, and it was built with help from Claude, Anthropic's AI. Optional donations help cover the time and AI tokens it takes to build, test and improve it. The skill works exactly the same whether or not you donate.
 
-**Questions, bugs, ideas?** [Open an issue on GitHub](https://github.com/bugsworthcode/adversary/issues)
+**Questions, bugs, ideas?** [Open an issue on GitHub](https://github.com/bugsworthcode/adversary/issues) or write to [support@adversarypr.com](mailto:support@adversarypr.com).
 
 ## Free and open source
 
@@ -220,13 +220,19 @@ AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to
 
 - **Licence:** code under the [MIT](LICENSE) licence, copyright Bugsworth, LLC. The name and logos are covered separately in [TRADEMARKS.md](TRADEMARKS.md).
 - **Support the project:** donations are optional and voluntary. They help cover the time and the AI tokens it takes to build, test and improve it. The skill works the same whether or not you donate. Ways to support the project are coming soon.
-- **Hosted team endpoint:** coming, waitlist only. It is not live, and details and any pricing are not decided.
+- **Hosted team endpoint:** coming. It is not live, and details and any pricing are not decided. Questions or news: [support@adversarypr.com](mailto:support@adversarypr.com).
 
 ## Latest release
 
 | Version | Released | Highlights |
 |---|---|---|
 | **2.13.0** | 2026-11-14 | The fix sentence is back; comments stay short, plain and gentle |
+
+## The story behind the helmet
+
+Far from Earth, the Adavi world is under siege. The Bankuli hordes pour through every crack in its defenses, and its shield code can't keep up. So the Adversary, the Adavi leader, went looking for Earth's sharpest eyes: the coders who read someone else's code and ask "what if this is empty?" He asks before he tells, shows you the fix, and never acts without your word. Every careful review is practice for the day he calls.
+
+> *Coder. My world needs you. Will you stand at the gate?*
 
 ## Contributing
 
