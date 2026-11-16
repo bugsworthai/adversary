@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <sub>Latest version <strong>2.13.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
+  <sub>Latest version <strong>2.14.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
 </p>
 
 <p align="center">
@@ -111,7 +111,7 @@ The limits, so there are no surprises:
 
 ## See every comment before it posts
 
-Add `html` to a run (`/adversary 38842 ; html`) and the review opens as a web page. It is a calm place to read, change your mind, and choose.
+Add `html` to a run (`/adversary 38842 ; html`) and the review opens as a web page. The chat also prints a link to it that you can click in your terminal. It is a calm place to read, change your mind, and choose.
 
 <p align="center">
   <img alt="The HTML preview: a table of 11 findings with severity, file and line, and below it the first comment with the diff lines it points at, the comment as it will appear on the pull request, and a bar to copy your selection." src="assets/html-preview.png" width="720">
@@ -169,7 +169,7 @@ Options go after the first `;` and combine freely.
 
 | Command | What it does |
 |---|---|
-| `/adversary 38842` | Review one PR with the latest version (2.13.0). |
+| `/adversary 38842` | Review one PR with the latest version (2.14.0). |
 | `/adversary 38842 ; html` | Latest, plus a web-page preview with each comment next to the code it points at. |
 | `/adversary 38842 ; model=haiku` | Latest, reviewed by Haiku. Also `sonnet`, `opus`, `fable`. |
 | `/adversary 38842 38901 39010 ; dry run` | Three PRs reviewed at the same time. Nothing is posted. |
@@ -210,7 +210,7 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 
 **Better engineers, one review at a time.** Each comment explains what could go wrong and why, then shows the fix, so every review is a short lesson and you pick up the failure patterns as you go. That is how it works. We have no measured improvement data yet, so we make no claim about results.
 
-**Who builds it:** AdversaryPR is made by Bugsworth, LLC. It is free and open source under the MIT licence, and it was built with help from Claude, Anthropic's AI. Optional donations help cover the time and AI tokens it takes to build, test and improve it. The skill works exactly the same whether or not you donate.
+**Who builds it:** AdversaryPR is made by Bugsworth, LLC. It is free and open source under the MIT licence, and it was built with help from Claude, Anthropic's AI. Questions or ideas: [support@adversarypr.com](mailto:support@adversarypr.com).
 
 **Questions, bugs, ideas?** [Open an issue on GitHub](https://github.com/bugsworthcode/adversary/issues) or write to [support@adversarypr.com](mailto:support@adversarypr.com).
 
@@ -219,14 +219,14 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to use them.
 
 - **Licence:** code under the [MIT](LICENSE) licence, copyright Bugsworth, LLC. The name and logos are covered separately in [TRADEMARKS.md](TRADEMARKS.md).
-- **Support the project:** donations are optional and voluntary. They help cover the time and the AI tokens it takes to build, test and improve it. The skill works the same whether or not you donate. Ways to support the project are coming soon.
+- **Support:** questions, bugs or ideas are welcome at [support@adversarypr.com](mailto:support@adversarypr.com).
 - **Hosted team endpoint:** coming. It is not live, and details and any pricing are not decided. Questions or news: [support@adversarypr.com](mailto:support@adversarypr.com).
 
 ## Latest release
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.13.0** | 2026-11-14 | The fix sentence is back; comments stay short, plain and gentle |
+| **2.14.0** | 2026-11-16 | The logo shows on every run; the HTML preview opens with a clickable link |
 
 ## The story behind the helmet
 
