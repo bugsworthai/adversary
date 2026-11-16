@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <sub>Latest version <strong>2.14.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
+  <sub>Latest version <strong>2.15.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
 </p>
 
 <p align="center">
@@ -169,7 +169,7 @@ Options go after the first `;` and combine freely.
 
 | Command | What it does |
 |---|---|
-| `/adversary 38842` | Review one PR with the latest version (2.14.0). |
+| `/adversary 38842` | Review one PR with the latest version (2.15.0). |
 | `/adversary 38842 ; html` | Latest, plus a web-page preview with each comment next to the code it points at. |
 | `/adversary 38842 ; model=haiku` | Latest, reviewed by Haiku. Also `sonnet`, `opus`, `fable`. |
 | `/adversary 38842 38901 39010 ; dry run` | Three PRs reviewed at the same time. Nothing is posted. |
@@ -200,6 +200,7 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 ## Safe and predictable
 
 - **Your token stays home.** All Azure DevOps and GitHub calls happen up front, in your session. The review agents never receive the token and never call either service. On GitHub it can use your `gh` CLI login, so there may be no token handling at all.
+- **Several organizations?** Save one Azure DevOps token per organization, project or repo in `~/.ado-pr-review-creds.json` (owner-only), and each PR uses the right one. Add one with a hidden prompt, so the token never shows in the chat: `! python3 ~/.claude/skills/adversary/versions/2.15.0/scripts/creds.py add --org Contoso`. With several `gh` accounts, map an owner to one with `creds.py github-map --owner acme --gh-user alice`.
 - **Nothing posts until you approve it.** You pick the comments. `dry run` posts nothing.
 
 **Usage counts are opt-in.** Anonymous usage counts are off until you say yes. The skill asks once. If you agree, it sends the skill version and which options you used (dry run, html, model, pinned version) and nothing else: no code, no PR content, no repo or org names, no token. Turn it off any time. The counts go to a daily counter hosted on Google Firebase, so Google's servers see the connection like any website. The website also keeps a daily count of clicks on its download buttons, with no cookies and no IDs, and it stays off if your browser sends Do Not Track.
@@ -226,7 +227,7 @@ AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.14.0** | 2026-11-16 | The logo shows on every run; the HTML preview opens with a clickable link |
+| **2.15.0** | 2026-11-16 | A separate token for each Azure DevOps organization, project or repo; GitHub accounts matched to owners |
 
 ## The story behind the helmet
 

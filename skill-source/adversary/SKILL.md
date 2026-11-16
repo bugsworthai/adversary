@@ -7,7 +7,7 @@ description: A careful second pair of eyes for Azure DevOps and GitHub pull requ
 
 This file chooses which version of AdversaryPR runs, then hands off to it. The review instructions live in `versions/<version>/instructions.md`. Released versions are frozen and never change after release, so `version=1.1.0` behaves the same next year as it does today.
 
-**Latest version: 2.14.0**
+**Latest version: 2.15.0**
 
 ## Step 0 — Pick the version
 
@@ -17,7 +17,7 @@ Arguments are in `$ARGUMENTS`.
    - **No `version=`**, or `version=latest` → use the latest version above.
    - **`version=list`** → print the "Available versions" table and the release notes below, then stop. Don't review anything.
    - **An exact version** (`2.10.0`) → use it.
-   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.14.0` today.
+   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.15.0` today.
    - **No match, or anything else** → say the version doesn't exist, print the "Available versions" table, and stop. Never fall back to a different version silently, because the user asked for a specific one.
 
    A "released version" is a row in the Available versions table whose folder exists under `versions/`.
@@ -82,24 +82,33 @@ Older version:
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.14.0** (latest) | 2026-11-16 | The logo shows on every run; the HTML preview opens with a clickable link |
+| **2.15.0** (latest) | 2026-11-16 | A separate token for each Azure DevOps organization, project or repo; GitHub accounts can be matched to owners |
+| 2.14.0 | 2026-11-16 | The logo shows on every run; the HTML preview opens with a clickable link |
 | 2.13.0 | 2026-11-14 | The fix sentence is back; comments stay short, plain and gentle |
 | 2.12.0 | 2026-11-14 | Comments get to the point, in plain words (about a 4th-grade reading level) |
 | 2.11.0 | 2026-11-14 | Tidier comment signatures; the checks are unchanged |
 | 2.10.0 | 2026-11-14 | A bare PR number now uses the repo in your current folder |
 
 ```
-/adversary 38842                        → latest (2.14.0)
+/adversary 38842                        → latest (2.15.0)
 /adversary 38842 ; html                 → latest, plus a web-page preview
 /adversary 38842 ; model=haiku          → latest, reviewed by Haiku
 /adversary 38842 38901 39010 ; dry run  → latest, three PRs reviewed at the same time
 /adversary https://github.com/acme/orders-api/pull/101 ; dry run  → latest, a GitHub PR
 /adversary 38842 ; version=2.10.0       → exactly 2.10.0
-/adversary 38842 ; version=2            → newest 2.x (2.14.0)
+/adversary 38842 ; version=2            → newest 2.x (2.15.0)
 /adversary version=list                 → versions and release notes; no review
 ```
 
 ## Release notes
+### 2.15.0 — 2026-11-16
+
+**Added**
+- **A token for each Azure DevOps organization.** `~/.ado-pr-review-creds.json` can now hold several profiles, each for an organization, and optionally one project or repo, so one run can review PRs from different organizations with the right PAT for each. The most specific match wins, and your old single-PAT file keeps working as the fallback. Add one yourself, with the PAT typed hidden so it never shows in the chat: `! python3 ~/.claude/skills/adversary/versions/2.15.0/scripts/creds.py add --org Contoso`. See what is saved (PATs hidden) with `creds.py list`. PATs are never printed, never given to review agents, and the file is owner-only.
+- **GitHub accounts by owner.** If the `gh` CLI holds several accounts, you can map an owner to one (`creds.py github-map --owner acme --gh-user alice`), and that PR's calls use that account without switching the active one.
+
+**Unchanged:** the checks, the evidence standard, severity, the comment format, the logo banner, the HTML preview, `model=`, anonymous usage counts, and the rule that nothing posts without your approval.
+
 ### 2.14.0 — 2026-11-16
 
 **Changed**
