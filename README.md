@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <sub>Latest version <strong>2.15.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
+  <sub>Latest version <strong>2.16.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
 </p>
 
 <p align="center">
@@ -66,8 +66,6 @@ This is a made-up export example. It is what lands on the line in your pull requ
 > if (!order) { log.warn("order " + id + " not found, skipped"); continue; }
 > await csv.write(order.total.toFixed(2));
 > ```
->
-> <sub>Comment by Sam using Adversary ([adversarypr.com](https://adversarypr.com))</sub>
 
 Every comment has the same shape:
 
@@ -78,7 +76,6 @@ Every comment has the same shape:
 | Failure | A concrete scenario or a named cost, never a vague "consider refactoring" |
 | Lead-in | "Please take a look at the suggested fix below, unless this was intentional." |
 | Fix | One recommended fix as a code snippet with the exact changed lines, or a pointer to a pattern already in your repo |
-| Signature | Comments post as you, signed with your name |
 
 It is fair to both sides: it considers the author's side before it comments, and looks again if you disagree.
 
@@ -169,7 +166,7 @@ Options go after the first `;` and combine freely.
 
 | Command | What it does |
 |---|---|
-| `/adversary 38842` | Review one PR with the latest version (2.15.0). |
+| `/adversary 38842` | Review one PR with the latest version (2.16.0). |
 | `/adversary 38842 ; html` | Latest, plus a web-page preview with each comment next to the code it points at. |
 | `/adversary 38842 ; model=haiku` | Latest, reviewed by Haiku. Also `sonnet`, `opus`, `fable`. |
 | `/adversary 38842 38901 39010 ; dry run` | Three PRs reviewed at the same time. Nothing is posted. |
@@ -227,7 +224,7 @@ AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.15.0** | 2026-11-16 | A separate token for each Azure DevOps organization, project or repo; GitHub accounts matched to owners |
+| **2.16.0** | 2026-11-16 | Comments carry no footer or link by default |
 
 ## The story behind the helmet
 

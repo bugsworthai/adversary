@@ -243,9 +243,7 @@ POST {API_BASE}/pullRequests/{PR_ID}/threads?api-version=7.1
    missing test, give a skeleton or concrete steps, never invented code.
 6. Write at about a 4th-grade reading level: sentences of 8 to 14 words (never over 20), everyday
    words, active voice. Code, symbol and file names stay as they are.
-7. **Signature.** After a blank line, one closing line:
-   `Comment by <ADO username> using Adversary ([adversarypr.com](https://adversarypr.com))`
-   Use the username from Step 1. Show it in the preview exactly as it will be posted.
+7. **No signature.** End the comment with the fix. Do not add a footer, a signature line, or any link.
 
 Azure DevOps has no suggested-change feature, so never use a `suggestion` fenced block. Use a
 language-tagged block, or a ```` ```diff ```` block with `-` and `+` lines when showing what is

@@ -2,7 +2,7 @@
 
 The AdversaryPR Claude skill, split into the two things GitHub Copilot actually understands.
 
-**Matches skill version 2.12.0.** That covers the careful, thorough review approach, the language rules, the design checks
+**Matches skill version 2.16.0** That covers the careful, thorough review approach, the language rules, the design checks
 (SOLID, DRY, YAGNI, anti-patterns), and the comment format: every comment gets to the point (it asks the author a short
 question only when it helps), states the failure, and ends with a fix as a code snippet, in plain words
 (about a 4th-grade reading level).
