@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/bugsworthcode/adversary/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/bugsworthcode/adversary?style=flat-square&color=d60f2c&labelColor=0b0e13"></a>
+  <a href="https://github.com/bugsworthai/adversary/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/bugsworthai/adversary?style=flat-square&color=d60f2c&labelColor=0b0e13"></a>
   <a href="LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-d60f2c?style=flat-square&labelColor=0b0e13"></a>
   <img alt="Works with Claude Code and GitHub Copilot" src="https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20GitHub%20Copilot-d60f2c?style=flat-square&labelColor=0b0e13">
   <img alt="Azure DevOps and GitHub" src="https://img.shields.io/badge/reviews-Azure%20DevOps%20%C2%B7%20GitHub-d60f2c?style=flat-square&labelColor=0b0e13">
@@ -138,7 +138,7 @@ Add `html` to a run (`/adversary 38842 ; html`) and the review opens as a web pa
 
 ### Claude Code
 
-[Download `adversary.skill`](https://github.com/bugsworthcode/adversary/releases/latest/download/adversary.skill) from the latest release, unzip it into your skills folder, then type `/adversary` with a PR number or link (Azure DevOps or GitHub).
+[Download `adversary.skill`](https://github.com/bugsworthai/adversary/releases/latest/download/adversary.skill) from the latest release, unzip it into your skills folder, then type `/adversary` with a PR number or link (Azure DevOps or GitHub).
 
 ```bash
 unzip adversary.skill -d ~/.claude/skills/
@@ -212,7 +212,7 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 
 **Who builds it:** AdversaryPR is made by Bugsworth, LLC. It is free and open source under the MIT licence, and it was built with help from Claude, Anthropic's AI. Questions or ideas: [support@adversarypr.com](mailto:support@adversarypr.com).
 
-**Questions, bugs, ideas?** [Open an issue on GitHub](https://github.com/bugsworthcode/adversary/issues) or write to [support@adversarypr.com](mailto:support@adversarypr.com).
+**Questions, bugs, ideas?** [Open an issue on GitHub](https://github.com/bugsworthai/adversary/issues) or write to [support@adversarypr.com](mailto:support@adversarypr.com).
 
 ## Free and open source
 
