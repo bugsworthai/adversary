@@ -1,13 +1,13 @@
 ---
 name: adversary
-description: A careful second pair of eyes for Azure DevOps and GitHub pull requests. Reviews one or more PRs, asks the author questions when it helps, explains in plain words, shows each fix as a code snippet (on GitHub, as a suggested change when it replaces exactly the lines it points at), and posts inline comments only after you approve them. Supports iOS (Swift), Android (Kotlin), and backend (Java/Kotlin/Python/Go/TypeScript), with design checks for SOLID (SRP in depth), DRY, YAGNI, and anti-patterns. Add html for a branded web-page preview with charts and flowcharts that shows each comment with the code it points at, and model=haiku, sonnet, opus, or fable to pick the reviewing model per run. Runs the latest version unless you pass version=X. Use for /adversary, dev.azure.com pull request links, github.com pull request links, or any request to review or comment on ADO or GitHub PRs.
+description: A careful second pair of eyes for Azure DevOps and GitHub pull requests. Reviews one or more PRs, asks the author questions when it helps, explains in plain words, shows each fix as a code snippet (on GitHub, as a suggested change when it replaces exactly the lines it points at), and posts inline comments only after you approve them. Supports iOS (Swift), Android (Kotlin), and backend (Java/Kotlin/Python/Go/TypeScript), with design checks for SOLID (SRP in depth), DRY, YAGNI, and anti-patterns. Add html for a branded web-page preview with charts, a how-it-works flowchart, and PDF or PNG export that shows each comment with the code it points at, and model=haiku, sonnet, opus, or fable to pick the reviewing model per run. Runs the latest version unless you pass version=X. Use for /adversary, dev.azure.com pull request links, github.com pull request links, or any request to review or comment on ADO or GitHub PRs.
 ---
 
 # AdversaryPR
 
 This file chooses which version of AdversaryPR runs, then hands off to it. The review instructions live in `versions/<version>/instructions.md`. Released versions are frozen and never change after release, so `version=1.1.0` behaves the same next year as it does today.
 
-**Latest version: 2.17.0**
+**Latest version: 2.18.0**
 
 ## Step 0 — Pick the version
 
@@ -17,7 +17,7 @@ Arguments are in `$ARGUMENTS`.
    - **No `version=`**, or `version=latest` → use the latest version above.
    - **`version=list`** → print the "Available versions" table and the release notes below, then stop. Don't review anything.
    - **An exact version** (`2.10.0`) → use it.
-   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.17.0` today.
+   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.18.0` today.
    - **No match, or anything else** → say the version doesn't exist, print the "Available versions" table, and stop. Never fall back to a different version silently, because the user asked for a specific one.
 
    A "released version" is a row in the Available versions table whose folder exists under `versions/`.
@@ -82,7 +82,8 @@ Older version:
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.17.0** (latest) | 2026-11-17 | Visual HTML preview: charts, flowcharts, AdversaryPR branding on the page |
+| **2.18.0** (latest) | 2026-11-17 | Every HTML page explains how the code works in a flowchart with findings pinned to steps; export to PDF or PNG |
+| 2.17.0 | 2026-11-17 | Visual HTML preview: charts, flowcharts, AdversaryPR branding on the page |
 | 2.16.0 | 2026-11-16 | Comments carry no footer or link by default |
 | 2.15.0 | 2026-11-16 | A separate token for each Azure DevOps organization, project or repo; GitHub accounts can be matched to owners |
 | 2.14.0 | 2026-11-16 | The logo shows on every run; the HTML preview opens with a clickable link |
@@ -92,17 +93,28 @@ Older version:
 | 2.10.0 | 2026-11-14 | A bare PR number now uses the repo in your current folder |
 
 ```
-/adversary 38842                        → latest (2.17.0)
+/adversary 38842                        → latest (2.18.0)
 /adversary 38842 ; html                 → latest, plus a web-page preview
 /adversary 38842 ; model=haiku          → latest, reviewed by Haiku
 /adversary 38842 38901 39010 ; dry run  → latest, three PRs reviewed at the same time
 /adversary https://github.com/acme/orders-api/pull/101 ; dry run  → latest, a GitHub PR
 /adversary 38842 ; version=2.10.0       → exactly 2.10.0
-/adversary 38842 ; version=2            → newest 2.x (2.17.0)
+/adversary 38842 ; version=2            → newest 2.x (2.18.0)
 /adversary version=list                 → versions and release notes; no review
 ```
 
 ## Release notes
+### 2.18.0 — 2026-11-17
+
+**Added**
+- **A "how it works" flowchart on every page.** With `html`, each PR now gets an overview flowchart that explains how the changed code works, drawn from the code that was read. Each finding is pinned to the step where it applies, as a clickable badge such as `P1 #3`, so you see the problem in the flow, not just in a list.
+- **Save as PDF or an image.** The page has a Save as PDF button and a Save PNG button on each flowchart. Ask for a PDF or PNG of the whole review and the skill saves `preview.pdf` or `preview.png` in the run folder, using a Chrome, Edge, Brave, or Chromium that is already installed.
+
+**Changed**
+- Tighter flowcharts and charts, a print layout for the PDF, and a warning when a PR has no overview or a badge points at a finding that does not exist.
+
+**Unchanged:** branding is on the HTML page only, comments carry no footer or link by default, flowcharts are never part of a comment, and nothing posts without your approval.
+
 ### 2.17.0 — 2026-11-17
 
 **Added**
