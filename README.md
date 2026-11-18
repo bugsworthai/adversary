@@ -9,7 +9,7 @@
 <h1 align="center">Write the best code in the universe</h1>
 
 <p align="center">
-  <strong>A second pair of eyes that asks before it tells.</strong><br>
+  <strong>Built for AI PRs that keep coming.</strong><br>
   AdversaryPR is a Claude skill that gives your Azure DevOps and GitHub pull requests a careful, thorough read: it checks the edge cases a quick skim misses, asks the author a question, shows the fix as code, and posts nothing until you approve it.
 </p>
 
@@ -32,7 +32,7 @@
 </p>
 
 <p align="center">
-  <img alt="Asks before it tells. Shows the fix as code. You stay in control." src="assets/features.svg" width="900">
+  <img alt="Reads the whole PR. Shows the fix as code. You stay in control." src="assets/features-ai.svg" width="900">
 </p>
 
 ---
