@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="170" viewBox="0 0 960 170" role="img" aria-label="Reads the whole PR. Shows the fix as code. Nothing posts until you say so.">
+<g transform="translate(0,0)">
+  <rect width="300" height="170" rx="16" fill="#0b0e13" stroke="#232831"/>
+  <circle cx="44" cy="46" r="22" fill="#ff2a45" fill-opacity=".14"/>
+  <g transform="translate(32,34)" fill="none" stroke="#ff2a45" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></g>
+  <text x="28" y="100" fill="#eef2f7" font-size="19" font-weight="700" font-family="Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">Reads the whole PR</text>
+  <text x="28" y="128" fill="#929bab" font-size="14.5" font-family="Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">Diff, callers, and what is</text>
+  <text x="28" y="148" fill="#929bab" font-size="14.5" font-family="Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">missing, not just changed lines.</text>
+</g>
+<g transform="translate(330,0)">
+  <rect width="300" height="170" rx="16" fill="#0b0e13" stroke="#232831"/>
+  <circle cx="44" cy="46" r="22" fill="#ff2a45" fill-opacity=".14"/>
+  <g transform="translate(32,34)" fill="none" stroke="#ff2a45" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></g>
+  <text x="28" y="100" fill="#eef2f7" font-size="19" font-weight="700" font-family="Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">Shows the fix as code</text>
+  <text x="28" y="128" fill="#929bab" font-size="14.5" font-family="Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">One clear fix in every comment,</text>
+  <text x="28" y="148" fill="#929bab" font-size="14.5" font-family="Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">one click on GitHub.</text>
+</g>
+<g transform="translate(660,0)">
+  <rect width="300" height="170" rx="16" fill="#0b0e13" stroke="#232831"/>
+  <circle cx="44" cy="46" r="22" fill="#ff2a45" fill-opacity=".14"/>
+  <g transform="translate(32,34)" fill="none" stroke="#ff2a45" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.500-3.400 8.200-8 9-4.600-.8-8-4.500-8-9V6l8-3z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></g>
+  <text x="28" y="100" fill="#eef2f7" font-size="19" font-weight="700" font-family="Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">You stay in control</text>
+  <text x="28" y="128" fill="#929bab" font-size="14.5" font-family="Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">Preview every comment. Nothing</text>
+  <text x="28" y="148" fill="#929bab" font-size="14.5" font-family="Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">posts until you approve it.</text>
+</g>
+</svg>
