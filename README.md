@@ -211,7 +211,7 @@ The `html` preview loads nothing from the network and cannot post. On GitHub the
 
 ## Built for engineers
 
-**Kind to people, careful with code.** Comments are clear and professional, about the change and never the person. They ask before they tell, so the author can say it was intentional. No sarcasm, no blame.
+**Kind to people, careful with code.** Comments are clear and professional, about the change and never the person. The author can always say it was intentional. No sarcasm, no blame.
 
 **Better engineers, one review at a time.** Each comment explains what could go wrong and why, then shows the fix, so every review is a short lesson and you pick up the failure patterns as you go. That is how it works. We have no measured improvement data yet, so we make no claim about results.
 
@@ -238,7 +238,7 @@ AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to
 
 ## The story behind the helmet
 
-Far from Earth, the Adavi world is under siege. The Bankuli hordes pour through every crack in its defenses, and its shield code can't keep up. So the Adversary, the Adavi leader, went looking for Earth's sharpest eyes: the coders who read someone else's code and ask "what if this is empty?" He asks before he tells, shows you the fix, and never acts without your word. Every careful review is practice for the day he calls.
+Far from Earth, the Adavi world is under siege. The Bankuli hordes pour through every crack in its defenses, and its shield code can't keep up. So the Adversary, the Adavi leader, went looking for Earth's sharpest eyes: the coders who read someone else's code and ask "what if this is empty?" He shows you the fix, and never acts without your word. Every careful review is practice for the day he calls.
 
 > *Coder. My world needs you. Will you stand at the gate?*
 
