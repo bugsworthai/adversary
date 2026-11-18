@@ -39,7 +39,7 @@
 
 ## What it is
 
-AdversaryPR reads a pull request carefully, checks what the code actually does, and drafts inline review comments for you to approve. It is on your side and on the author's side: a calm second pair of eyes for both sides of the code.
+AdversaryPR reads a pull request carefully, checks what the code actually does, and drafts inline review comments for you to approve. It is on your side and on the author's side: a calm reviewer for both sides of the code.
 
 - **It checks every change.** It asks "what if" about empty input, error paths, retries, concurrency, partial failure, upgrade and rollback. It compares the title, description, names, comments and passing tests with what the code does. It reads the callers, and it looks for what the diff is missing.
 - **A clear reason and a fix in every comment.** Each comment sits on the exact line, gets to the point in plain words, asks the author a short question when it helps, names the failure scenario or cost, and shows one recommended fix as a code snippet.
