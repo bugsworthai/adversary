@@ -6,7 +6,7 @@
   </picture>
 </p>
 
-<h1 align="center">Write the best code in the universe</h1>
+<h1 align="center">Review PRs at light speed</h1>
 
 <p align="center">
   <strong>Built for AI PRs that keep coming.</strong><br>
