@@ -10,7 +10,7 @@
 
 <p align="center">
   <strong>Built for AI PR's that keep coming.</strong><br>
-  AI tools open pull requests faster than your team can review them. AdversaryPR is a Claude skill that gives you a faster, more confident review on Azure DevOps and GitHub: it reads the whole PR, drafts comments with the fix as code, and posts nothing until you approve it.
+  AI writes PR's faster than anyone can review them. AdversaryPR is a Claude skill for Azure DevOps and GitHub that drafts the review, fixes included. You approve what posts.
 </p>
 
 <p align="center">
