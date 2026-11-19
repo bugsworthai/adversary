@@ -6,7 +6,7 @@
   </picture>
 </p>
 
-<h1 align="center">Review PR's at light speed</h1>
+<h1 align="center">Light speed PR reviews.</h1>
 
 <p align="center">
   <strong>Built for AI PR's that keep coming.</strong><br>
