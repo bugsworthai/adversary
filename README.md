@@ -10,7 +10,7 @@
 
 <p align="center">
   <strong>Built for AI PRs that keep coming.</strong><br>
-  AdversaryPR is a Claude skill that gives your Azure DevOps and GitHub pull requests a careful, thorough read: it checks the edge cases a quick skim misses, asks the author a question, shows the fix as code, and posts nothing until you approve it.
+  AI tools open pull requests faster than your team can review them. AdversaryPR is a Claude skill that gives you a faster, more confident review on Azure DevOps and GitHub: it reads the whole PR, drafts comments with the fix as code, and posts nothing until you approve it.
 </p>
 
 <p align="center">
@@ -37,9 +37,24 @@
 
 ---
 
+## The problem
+
+AI coding tools mean developers now open far more pull requests than before, and teams create them faster than people can review them.
+
+- Some PRs cannot be reviewed in time. They sit for days and go stale.
+- The longer a PR waits, the more likely it is to collide in a merge conflict.
+- Work that depends on it stalls downstream.
+- Reading a large AI-written PR closely takes real effort, and the reviewer is the bottleneck.
+
+## The fix
+
+AdversaryPR helps you keep up with the velocity of AI-written PRs. It gives you a faster, more confident way to review: it reads the whole pull request (the diff, the callers and what is missing), drafts inline comments that each name a failure or cost and show the fix as code, and shows the change visually (severity charts, a flowchart with findings pinned to steps, a PDF) so a PR is quick to understand. It can review several PRs at the same time. You pick what posts.
+
+**What it does not do:** it never approves, merges or blocks a PR, never posts without your approval, does not run your code or tests, and does not replace human review or tests. It cannot catch everything. It makes each review quicker and more confident so fewer PRs sit; it does not manage your queue or fix merge conflicts.
+
 ## What it is
 
-AI coding tools now open pull requests faster than a team can review them. PRs sit for days, go stale and collide in merge conflicts. AdversaryPR helps you keep up: it reads the whole pull request, checks what the code actually does, and drafts inline review comments for you to approve, so a review takes less effort and you can trust it. It supports your reviewers. It does not approve or merge anything, and it does not replace human review or tests. It is on your side and on the author's side: a calm reviewer for both sides of the code.
+AdversaryPR is a careful reviewer for both sides of the code, on the author's side as well as yours.
 
 - **It checks every change.** It asks "what if" about empty input, error paths, retries, concurrency, partial failure, upgrade and rollback. It compares the title, description, names, comments and passing tests with what the code does. It reads the callers, and it looks for what the diff is missing.
 - **A clear reason and a fix in every comment.** Each comment sits on the exact line, gets to the point in plain words, asks the author a short question when it helps, names the failure scenario or cost, and shows one recommended fix as a code snippet.
