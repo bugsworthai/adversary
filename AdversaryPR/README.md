@@ -9,9 +9,9 @@ question only when it helps), states the failure, and ends with a fix as a code 
 On GitHub, a fix that replaces exactly the lines it points at is posted as a suggested change (a Commit suggestion
 button). The port covers the review rules for Copilot code review (`instructions/`) and the Azure DevOps flow in the
 prompt file (`prompts/adversary.prompt.md`). The skill's release notes (`SKILL.md` in `adversary.skill`) list what
-changed between versions. These are skill-only: reviewing several PRs at once (the prompt file reviews one PR per
+changed between versions. These are skill-only: reviewing several PR's at once (the prompt file reviews one PR per
 run), `version=` selection (here, the repo's git history is the version history), the `html` preview page, `model=`
-(in Copilot, pick the model in the chat's model picker), posting to GitHub PRs (Copilot code review posts its own
+(in Copilot, pick the model in the chat's model picker), posting to GitHub PR's (Copilot code review posts its own
 comments), and usage counts.
 
 ```
@@ -76,7 +76,7 @@ and the ADO API calls.
 in a PR and Copilot won't use them on that PR. They take effect only after the merge. Land them in a
 separate housekeeping PR first.
 
-**Copilot code review only works on GitHub PRs.** If your repos live on `dev.azure.com`, the
+**Copilot code review only works on GitHub PR's.** If your repos live on `dev.azure.com`, the
 `instructions/` folder does nothing there — Copilot code review can't see ADO. Use the prompt file
 instead, or mirror the repos to GitHub.
 

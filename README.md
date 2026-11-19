@@ -6,10 +6,10 @@
   </picture>
 </p>
 
-<h1 align="center">Review PRs at light speed</h1>
+<h1 align="center">Review PR's at light speed</h1>
 
 <p align="center">
-  <strong>Built for AI PRs that keep coming.</strong><br>
+  <strong>Built for AI PR's that keep coming.</strong><br>
   AI tools open pull requests faster than your team can review them. AdversaryPR is a Claude skill that gives you a faster, more confident review on Azure DevOps and GitHub: it reads the whole PR, drafts comments with the fix as code, and posts nothing until you approve it.
 </p>
 
@@ -41,16 +41,16 @@
 
 AI coding tools mean developers now open far more pull requests than before, and teams create them faster than people can review them.
 
-- Some PRs cannot be reviewed in time. They sit for days and go stale.
+- Some PR's cannot be reviewed in time. They sit for days and go stale.
 - The longer a PR waits, the more likely it is to collide in a merge conflict.
 - Work that depends on it stalls downstream.
 - Reading a large AI-written PR closely takes real effort, and the reviewer is the bottleneck.
 
 ## The fix
 
-AdversaryPR helps you keep up with the velocity of AI-written PRs. It gives you a faster, more confident way to review: it reads the whole pull request (the diff, the callers and what is missing), drafts inline comments that each name a failure or cost and show the fix as code, and shows the change visually (severity charts, a flowchart with findings pinned to steps, a PDF) so a PR is quick to understand. It can review several PRs at the same time. You pick what posts.
+AdversaryPR helps you keep up with the velocity of AI-written PR's. It gives you a faster, more confident way to review: it reads the whole pull request (the diff, the callers and what is missing), drafts inline comments that each name a failure or cost and show the fix as code, and shows the change visually (severity charts, a flowchart with findings pinned to steps, a PDF) so a PR is quick to understand. It can review several PR's at the same time. You pick what posts.
 
-**What it does not do:** it never approves, merges or blocks a PR, never posts without your approval, does not run your code or tests, and does not replace human review or tests. It cannot catch everything. It makes each review quicker and more confident so fewer PRs sit; it does not manage your queue or fix merge conflicts.
+**What it does not do:** it never approves, merges or blocks a PR, never posts without your approval, does not run your code or tests, and does not replace human review or tests. It cannot catch everything. It makes each review quicker and more confident so fewer PR's sit; it does not manage your queue or fix merge conflicts.
 
 ## What it is
 
@@ -58,7 +58,7 @@ AdversaryPR is a careful reviewer for both sides of the code, on the author's si
 
 - **It checks every change.** It asks "what if" about empty input, error paths, retries, concurrency, partial failure, upgrade and rollback. It compares the title, description, names, comments and passing tests with what the code does. It reads the callers, and it looks for what the diff is missing.
 - **A clear reason and a fix in every comment.** Each comment sits on the exact line, gets to the point in plain words, asks the author a short question when it helps, names the failure scenario or cost, and shows one recommended fix as a code snippet.
-- **Several PRs at once.** In Claude Code each PR gets its own background review agent, all running at the same time, and you approve from one combined preview.
+- **Several PR's at once.** In Claude Code each PR gets its own background review agent, all running at the same time, and you approve from one combined preview.
 - **Your languages and your repo's conventions.** Swift, Kotlin, Java, Python, Go and TypeScript, with design checks for SOLID (SRP in depth), DRY, YAGNI and an anti-pattern catalog. It also reads `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING.md` and Copilot instruction files from the PR's repo.
 - **You stay in control.** You see a preview of every comment, then pick which ones go to the PR. Nothing posts until you approve it, and `dry run` posts nothing.
 
@@ -191,7 +191,7 @@ Options go after the first `;` and combine freely.
 | `/adversary 38842` | Review one PR with the latest version (2.19.0). |
 | `/adversary 38842 ; html` | Latest, plus a web-page preview with each comment next to the code it points at. |
 | `/adversary 38842 ; model=haiku` | Latest, reviewed by Haiku. Also `sonnet`, `opus`, `fable`. |
-| `/adversary 38842 38901 39010 ; dry run` | Three PRs reviewed at the same time. Nothing is posted. |
+| `/adversary 38842 38901 39010 ; dry run` | Three PR's reviewed at the same time. Nothing is posted. |
 | `/adversary https://github.com/acme/orders-api/pull/101 ; dry run` | A GitHub pull request, reviewed without posting. |
 
 Together: `/adversary 38842 38901 ; dry run ; html ; model=sonnet`
