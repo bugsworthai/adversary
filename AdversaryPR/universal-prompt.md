@@ -117,7 +117,9 @@ Before the table, print three short things about the PR. They are never part of 
 
 1. Fit: if you can see the target branch, say in one line whether the PR is up to date with it,
    behind it, changes files the target also changed, or no longer merges cleanly. If you cannot
-   see it, say "could not tell". Never guess.
+   see it, say "could not tell". Never guess. Unless it is up to date, add a next step: ask the
+   author to update the branch and run the review again (line numbers might move), or check the
+   shared files after the update.
 2. Impact, from 1 to 5, with one to three reasons that name real files or functions. It is a
    judgment, not a measurement, and it is separate from severity. 1 = contained (docs, tests, one
    file); 2 = local (one feature, few callers); 3 = shared (changes behavior that several parts

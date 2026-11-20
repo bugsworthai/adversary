@@ -188,7 +188,10 @@ pair already exists.
 First print three short things about the PR. They are never part of a comment:
 
 1. **Fit:** one line from Step 3, such as `3 commits behind main; also changed on main: <file>`,
-   `no longer merges cleanly: <files>`, or `could not tell`.
+   `no longer merges cleanly: <files>`, or `could not tell`. Unless it is up to date, add a next
+   step: ask the author to update the branch (for example `git fetch origin && git rebase
+   origin/{TARGET_BRANCH}`) and run the review again, because line numbers might move. If the
+   conflicting files are unknown, point to the PR page's conflicts link.
 2. **Impact, 1 to 5,** with one to three reasons that name real files or functions. It is a
    judgment, not a measurement, and it is separate from severity. 1 contained (docs, tests, one
    file); 2 local (one feature, few callers); 3 shared (several parts use the changed behavior);
