@@ -82,6 +82,20 @@ Extract `sourceRefName` and `targetRefName` (strip `refs/heads/`) into `SOURCE_B
 `lastMergeTargetCommit.commitId` into `TARGET_SHA`. Print the `title` so the user can confirm which
 PR is being reviewed.
 
+Also check whether the PR still fits its target branch, and keep the result for Step 7. The
+metadata has `mergeStatus` (`conflicts` means it no longer merges cleanly; `succeeded` means it
+does). To see whether the target has moved, compare the target's current commit with `TARGET_SHA`:
+
+```
+GET {API_BASE}/refs?filter=heads/{TARGET_BRANCH}&api-version=7.1
+```
+
+`value[0].objectId` equal to `TARGET_SHA` means up to date. With a local clone, also run
+`git rev-list --count {SOURCE_SHA}..origin/{TARGET_BRANCH}` for how many commits behind, and
+`git merge-tree --write-tree --name-only origin/{TARGET_BRANCH} {SOURCE_SHA}` (git 2.38 or later;
+exit 1 means conflicts) for the files that conflict. If you cannot tell, say "could not tell".
+Never block the review on this.
+
 ---
 
 ## Step 4 — Fetch the diff
@@ -171,7 +185,22 @@ pair already exists.
 
 **Always do this, even when `dry run` was not requested.** Never post without confirmation.
 
-Print a numbered preview table:
+First print three short things about the PR. They are never part of a comment:
+
+1. **Fit:** one line from Step 3, such as `3 commits behind main; also changed on main: <file>`,
+   `no longer merges cleanly: <files>`, or `could not tell`.
+2. **Impact, 1 to 5,** with one to three reasons that name real files or functions. It is a
+   judgment, not a measurement, and it is separate from severity. 1 contained (docs, tests, one
+   file); 2 local (one feature, few callers); 3 shared (several parts use the changed behavior);
+   4 wide (public API, schema, auth, money, build or deploy config); 5 foundational (a core
+   library, an undoable data migration, a security boundary). Use the highest that fits. To find
+   the reach, count uses of the changed public names with `git grep -c` (at most 10 names), or
+   say "from the diff only".
+3. **How the change works:** a numbered flowchart of 4 to 12 steps with real function names, the
+   decisions, and where it ends or fails. Write `-> 4` under a step for where it goes next, and a
+   badge like `[P1 #3]` on the step where a finding sits. Even a PR with no findings gets one.
+
+Then print a numbered preview table:
 
 ```
 Found N issues:

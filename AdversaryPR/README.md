@@ -2,10 +2,11 @@
 
 The AdversaryPR Claude skill, split into the two things GitHub Copilot actually understands.
 
-**Matches skill version 2.16.0** That covers the careful, thorough review approach, the language rules, the design checks
+**Matches skill version 2.21.0** That covers the careful, thorough review approach, the language rules, the design checks
 (SOLID, DRY, YAGNI, anti-patterns), and the comment format: every comment gets to the point (it asks the author a short
 question only when it helps), states the failure, and ends with a fix as a code snippet, in plain words
-(about a 4th-grade reading level).
+(about a 4th-grade reading level). Since 2.20.0 it also tells you, before the review, whether the PR still fits its target branch,
+gives an impact score from 1 to 5 (a judgment, not a measurement), and shows a numbered flowchart of how the changed code works.
 On GitHub, a fix that replaces exactly the lines it points at is posted as a suggested change (a Commit suggestion
 button). The port covers the review rules for Copilot code review (`instructions/`) and the Azure DevOps flow in the
 prompt file (`prompts/adversary.prompt.md`). The skill's release notes (`SKILL.md` in `adversary.skill`) list what

@@ -111,7 +111,22 @@ Rules for what not to say:
 - If something is a judgment call rather than a defect, say so and state the tradeoff
 - No padding, no hedging, no summary of what the diff does
 
-Output a table first — severity, file, line, one-line summary, sorted by severity. Then the full
+Before the table, print three short things about the PR. They are never part of a comment.
+
+1. Fit: if you can see the target branch, say in one line whether the PR is up to date with it,
+   behind it, changes files the target also changed, or no longer merges cleanly. If you cannot
+   see it, say "could not tell". Never guess.
+2. Impact, from 1 to 5, with one to three reasons that name real files or functions. It is a
+   judgment, not a measurement, and it is separate from severity. 1 = contained (docs, tests, one
+   file); 2 = local (one feature, few callers); 3 = shared (changes behavior that several parts
+   use); 4 = wide (public API, schema, auth, money, build or deploy config); 5 = foundational (a
+   core library, an undoable data migration, a security boundary). Use the highest that fits. Say
+   "from the diff only" when you did not look at callers.
+3. How the change works: a numbered flowchart of 4 to 12 steps with the real function names,
+   the decisions, and where it ends or fails. Write "-> 4" under a step for where it goes next,
+   and put a badge like [P1 #3] on the step where a finding sits. Even a PR with no findings gets one.
+
+Then output a table: severity, file, line, one-line summary, sorted by severity. Then the full
 comment for each finding. If you find nothing above P3, say so plainly instead of inventing
 findings.
 ```

@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <sub>Latest version <strong>2.20.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
+  <sub>Latest version <strong>2.21.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
 </p>
 
 <p align="center">
@@ -189,7 +189,7 @@ Options go after the first `;` and combine freely.
 
 | Command | What it does |
 |---|---|
-| `/adversary 38842` | Review one PR with the latest version (2.20.0). |
+| `/adversary 38842` | Review one PR with the latest version (2.21.0). |
 | `/adversary 38842 ; html` | Latest, plus a web-page preview with each comment next to the code it points at. |
 | `/adversary 38842 ; model=haiku` | Latest, reviewed by Haiku. Also `sonnet`, `opus`, `fable`. |
 | `/adversary 38842 38901 39010 ; dry run` | Three PR's reviewed at the same time. Nothing is posted. |
@@ -247,7 +247,8 @@ AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.20.0** | 2026-11-20 | Checks the PR still fits its target branch, an impact score, and the flowchart on every run (as text, or a picture with `html`) |
+| **2.21.0** | 2026-11-20 | The fit check says so when GitHub caps the list of files changed on the target, instead of claiming no overlap |
+| 2.20.0 | 2026-11-20 | Checks the PR still fits its target branch, an impact score, and the flowchart on every run (as text, or a picture with `html`) |
 | 2.19.0 | 2026-11-17 | The HTML page downloads a real PDF (no print dialog) |
 | 2.18.0 | 2026-11-17 | Every HTML page explains how the code works in a flowchart with findings pinned to steps; export to PDF or PNG |
 | 2.17.0 | 2026-11-17 | Visual HTML preview: charts, flowcharts, AdversaryPR branding on the page |
