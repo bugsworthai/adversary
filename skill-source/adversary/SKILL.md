@@ -7,7 +7,7 @@ description: Helps you keep up with AI-written pull requests: a faster, more con
 
 This file chooses which version of AdversaryPR runs, then hands off to it. The review instructions live in `versions/<version>/instructions.md`. Released versions are frozen and never change after release, so `version=1.1.0` behaves the same next year as it does today.
 
-**Latest version: 2.21.0**
+**Latest version: 2.22.0**
 
 ## Step 0 — Pick the version
 
@@ -17,7 +17,7 @@ Arguments are in `$ARGUMENTS`.
    - **No `version=`**, or `version=latest` → use the latest version above.
    - **`version=list`** → print the "Available versions" table and the release notes below, then stop. Don't review anything.
    - **An exact version** (`2.10.0`) → use it.
-   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.21.0` today.
+   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.22.0` today.
    - **No match, or anything else** → say the version doesn't exist, print the "Available versions" table, and stop. Never fall back to a different version silently, because the user asked for a specific one.
 
    A "released version" is a row in the Available versions table whose folder exists under `versions/`.
@@ -82,7 +82,8 @@ Older version:
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.21.0** (latest) | 2026-11-20 | The fit check no longer says "no overlap" when GitHub caps the file list |
+| **2.22.0** (latest) | 2026-11-20 | Comments use contractions and match their wording to how sure the review is; impact and fit show as a scorecard on the page |
+| 2.21.0 | 2026-11-20 | The fit check no longer says "no overlap" when GitHub caps the file list |
 | 2.20.0 | 2026-11-20 | Checks the PR still fits its target branch, an impact score, and the how-it-works flowchart on every run |
 | 2.19.0 | 2026-11-17 | The HTML page downloads a real PDF (no print dialog) |
 | 2.18.0 | 2026-11-17 | Every HTML page explains how the code works in a flowchart with findings pinned to steps; export to PDF or PNG |
@@ -96,17 +97,25 @@ Older version:
 | 2.10.0 | 2026-11-14 | A bare PR number now uses the repo in your current folder |
 
 ```
-/adversary 38842                        → latest (2.21.0)
+/adversary 38842                        → latest (2.22.0)
 /adversary 38842 ; html                 → latest, plus a web-page preview
 /adversary 38842 ; model=haiku          → latest, reviewed by Haiku
 /adversary 38842 38901 39010 ; dry run  → latest, three PRs reviewed at the same time
 /adversary https://github.com/acme/orders-api/pull/101 ; dry run  → latest, a GitHub PR
 /adversary 38842 ; version=2.10.0       → exactly 2.10.0
-/adversary 38842 ; version=2            → newest 2.x (2.21.0)
+/adversary 38842 ; version=2            → newest 2.x (2.22.0)
 /adversary version=list                 → versions and release notes; no review
 ```
 
 ## Release notes
+### 2.22.0 — 2026-11-20
+
+**Changed**
+- **Friendlier, more honest wording in comments.** Comments use contractions ("doesn't", "can't") instead of "does not" and "cannot". The words also match how sure the review is: a failure the reviewer traced is stated plainly, and "might" or "could" is used only when the outcome depends on something the reviewer can't see. "May not" is avoided because it can mean two things.
+- **Impact and fit are a scorecard on the HTML page.** The page shows the impact score as a five-segment meter with its reasons, and the fit result beside it, under each PR's heading. The multi-PR table on the page has Impact and Fit columns.
+
+**Unchanged:** the checks, the evidence standard, severity, the flowchart, and the rule that nothing posts without your approval.
+
 ### 2.21.0 — 2026-11-20
 
 **Fixed**

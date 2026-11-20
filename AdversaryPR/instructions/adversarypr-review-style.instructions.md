@@ -42,7 +42,7 @@ Every comment has these parts, in order:
 4. The sentence: "Please take a look at the suggested fix below, unless this was intentional."
 5. **The fix or way forward as a code snippet** in a fenced block with the file's language. One recommended fix; at most one alternative, in one line. About 15 lines at most, real names. For a design question or missing test, give a skeleton or concrete steps, never invented code.
 
-Write at about a 4th-grade reading level: sentences of 8 to 14 words (never over 20), everyday words. Be gentle: suggest ("you could", "one way is"), never order. Code, symbol and file names stay as they are.
+Write at about a 4th-grade reading level: sentences of 8 to 14 words (never over 20), everyday words, contractions ("doesn't", "can't"). Be gentle: suggest ("you could", "one way is"), never order. Say a traced failure plainly; use "might" only when it depends on something you can't see. Code and names stay as they are.
 
 On GitHub, when the snippet replaces exactly the lines the comment points at, use a fenced block with the info string `suggestion` (GitHub shows a Commit suggestion button). Otherwise use a normal language block.
 
@@ -72,7 +72,3 @@ For design findings (SOLID, DRY, YAGNI, anti-patterns), name the principle in th
 - Naming or formatting preferences with no correctness or convention basis
 - Lines that are unchanged context in the diff — only comment on added or modified lines
 - The same issue twice in one file; comment on the first occurrence and note that it recurs
-
-## Tone
-
-Clear, specific and kind. If it is a judgment call, not a defect, say so and state the tradeoff.

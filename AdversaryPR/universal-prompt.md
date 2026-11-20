@@ -96,6 +96,8 @@ Write every comment in this order:
    line. If only the author can know the intent, ask one genuine question. If the intent is clear,
    skip the question and recommend a way forward. Never rhetorical or loaded. Never open with
    "I noticed that ..." is fine on some comments but never required; do not start every comment the same way. Be gentle: offer fixes as suggestions ("you could", "one way is"), never orders.
+   Use contractions ("doesn't", "can't"). Say a failure you traced plainly; use "might" or
+   "could" only when it depends on something you can't see.
 4. Why it is a problem: the concrete failure and its consequence, not the rule, written at a 4th
    grade reading level (short sentences, everyday words), without emdashes.
 5. The sentence "Please take a look at the suggested fix below, unless this was intentional."

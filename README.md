@@ -41,7 +41,7 @@
 
 AI coding tools mean developers now open far more pull requests than before, and teams create them faster than people can review them.
 
-- Some PR's cannot be reviewed in time. They sit for days and go stale.
+- Some PR's can't be reviewed in time. They sit for days and go stale.
 - The longer a PR waits, the more likely it is to collide in a merge conflict.
 - Work that depends on it stalls downstream.
 - Reading a large AI-written PR closely takes real effort, and the reviewer is the bottleneck.
@@ -50,7 +50,7 @@ AI coding tools mean developers now open far more pull requests than before, and
 
 AdversaryPR helps you keep up with the velocity of AI-written PR's. It gives you a faster, more confident way to review: it reads the whole pull request (the diff, the callers and what is missing), drafts inline comments that each name a failure or cost and show the fix as code, and shows the change visually (severity charts, a flowchart with findings pinned to steps, a PDF) so a PR is quick to understand. It can review several PR's at the same time. You pick what posts.
 
-**What it does not do:** it never approves, merges or blocks a PR, never posts without your approval, does not run your code or tests, and does not replace human review or tests. It cannot catch everything. It makes each review quicker and more confident so fewer PR's sit; it does not manage your queue or fix merge conflicts.
+**What it doesn't do:** it never approves, merges or blocks a PR, never posts without your approval, doesn't run your code or tests, and doesn't replace human review or tests. It can't catch everything. It makes each review quicker and more confident so fewer PR's sit; it doesn't manage your queue or fix merge conflicts.
 
 ## What it is
 
@@ -117,7 +117,7 @@ How GitHub shows it:
 
 The limits, so there are no surprises:
 
-- If the fix does not replace exactly the lines the comment points at, it is posted as a normal code block, not a suggested change.
+- If the fix doesn't replace exactly the lines the comment points at, it is posted as a normal code block, not a suggested change.
 - On Azure DevOps there is no equivalent. The fix is a code block.
 - The skill itself never commits or pushes code. The one-click commit is GitHub's own feature, done by the person who clicks the button.
 
@@ -141,7 +141,7 @@ Add `html` to a run (`/adversary 38842 ; html`) and the review opens as a web pa
 - **The comment as the pull request will show it,** and the exact markdown that will be posted.
 - **A checkbox for every comment.** Untick what you don't want, then copy the reply (such as `1 3-5`) back into the chat.
 - **Placement checks.** It flags a comment whose line isn't in the diff before anything is posted.
-- **Safe.** It loads nothing from the network and cannot post.
+- **Safe.** It loads nothing from the network and can't post.
 
 ## Works with
 
@@ -215,7 +215,7 @@ Together: `/adversary 38842 38901 ; dry run ; html ; model=sonnet`
 | `all` | Posts every comment in the preview. |
 | `dry run` (as an option) | Review only. Nothing is posted. |
 
-The `html` preview loads nothing from the network and cannot post. On GitHub the comments post as one review with inline comments, as the signed-in user.
+The `html` preview loads nothing from the network and can't post. On GitHub the comments post as one review with inline comments, as the signed-in user.
 
 ## Safe and predictable
 
@@ -241,7 +241,7 @@ AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to
 
 - **Licence:** code under the [MIT](LICENSE) licence, copyright Bugsworth, LLC. The name and logos are covered separately in [TRADEMARKS.md](TRADEMARKS.md).
 - **Support:** questions, bugs or ideas are welcome at [support@adversarypr.com](mailto:support@adversarypr.com).
-- **Hosted team endpoint:** coming. It is not live, and details and any pricing are not decided. Questions or news: [support@adversarypr.com](mailto:support@adversarypr.com).
+- **Hosted team endpoint:** coming. It isn't live, and details and any pricing aren't decided. Questions or news: [support@adversarypr.com](mailto:support@adversarypr.com).
 
 ## Latest release
 
