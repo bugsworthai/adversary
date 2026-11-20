@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <sub>Latest version <strong>2.19.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
+  <sub>Latest version <strong>2.20.0</strong> · package <code>adversary.skill</code> · command <code>/adversary</code> · free and open source</sub>
 </p>
 
 <p align="center">
@@ -134,7 +134,8 @@ Add `html` to a run (`/adversary 38842 ; html`) and the review opens as a web pa
 </p>
 
 - **Branded and visual.** The page opens with the AdversaryPR logo, name and version, and shows findings by severity and by file as charts.
-- **A flowchart of how the code works.** Every page explains the changed code as a flowchart, drawn from the code that was read. Each finding is pinned to the step where it happens, as a badge you can click. Findings with a failure path can get their own small chart. They work offline and are never part of a comment.
+- **Does it still fit, and how far does it reach?** Before it reads any lines, each PR is checked for whether it is up to date with its target branch, behind it, touching files that changed there, or no longer merging cleanly. Each PR also gets an impact score from 1 to 5, a judgment (not a measurement) of how much of the codebase the change can touch, with the reasons. Both show in the chat and the page, never in a comment, and the review runs either way.
+- **A flowchart of how the code works.** Every run explains the changed code as a flowchart, drawn from the code that was read. Each finding is pinned to the step where it happens, as a badge you can click. Findings with a failure path can get their own small chart. They work offline and are never part of a comment.
 - **Save it.** The skill saves `preview.pdf` next to the page, and the page's **Download PDF** button downloads it as a real PDF, with no print dialog. Each flowchart has a Save PNG button, and `--png` saves the whole page as one image.
 - **Each comment next to its code.** The diff lines around the comment are highlighted, so you can judge it in context.
 - **The comment as the pull request will show it,** and the exact markdown that will be posted.
@@ -188,7 +189,7 @@ Options go after the first `;` and combine freely.
 
 | Command | What it does |
 |---|---|
-| `/adversary 38842` | Review one PR with the latest version (2.19.0). |
+| `/adversary 38842` | Review one PR with the latest version (2.20.0). |
 | `/adversary 38842 ; html` | Latest, plus a web-page preview with each comment next to the code it points at. |
 | `/adversary 38842 ; model=haiku` | Latest, reviewed by Haiku. Also `sonnet`, `opus`, `fable`. |
 | `/adversary 38842 38901 39010 ; dry run` | Three PR's reviewed at the same time. Nothing is posted. |
@@ -246,7 +247,8 @@ AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.19.0** | 2026-11-17 | The HTML page downloads a real PDF (no print dialog) |
+| **2.20.0** | 2026-11-20 | Checks the PR still fits its target branch, an impact score, and the flowchart on every run (as text, or a picture with `html`) |
+| 2.19.0 | 2026-11-17 | The HTML page downloads a real PDF (no print dialog) |
 | 2.18.0 | 2026-11-17 | Every HTML page explains how the code works in a flowchart with findings pinned to steps; export to PDF or PNG |
 | 2.17.0 | 2026-11-17 | Visual HTML preview: charts, flowcharts, AdversaryPR branding on the page |
 | 2.16.0 | 2026-11-16 | Comments carry no footer or link by default |
