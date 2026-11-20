@@ -1,0 +1,140 @@
+{
+ "prId": 101,
+ "status": "ok",
+ "findings": [
+  {
+   "n": 1,
+   "severity": "P1",
+   "ruleSet": "JVM P1",
+   "filePath": "src/checkout/CheckoutService.kt",
+   "line": 25,
+   "summary": "A retry after a timeout can charge the customer twice",
+   "content": "**A retry after a timeout can charge the customer twice**\n\n`payments.charge(order.id, order.totalCents)` is inside the retry loop. Say the first call reaches the bank, but the reply times out. The loop then sends a second charge, and the customer pays twice. Does `PaymentClient` accept an idempotency key? That would let the bank ignore the repeat.\n\nPlease take a look at the suggested fix below, unless this was intentional.\n\n```kotlin\nval key = \"charge-${order.id}\"\nval result = payments.charge(order.id, order.totalCents, idempotencyKey = key)\n```"
+  },
+  {
+   "n": 2,
+   "severity": "P1",
+   "ruleSet": "JVM P1",
+   "filePath": "src/checkout/CheckoutService.kt",
+   "line": 27,
+   "summary": "An email failure after a good charge makes the loop charge again",
+   "content": "**An email failure after a good charge makes the loop charge again**\n\n`mailer.send(...)` is inside the same `try`. If the charge works and the email throws, the `catch` counts it as a failed payment. The loop then charges the customer again. You could move the email out of the retry, after the charge has worked.\n\nPlease take a look at the suggested fix below, unless this was intentional.\n\n```kotlin\nval receipt = chargeWithRetry(order)\nmailer.send(order.email, \"Receipt ${receipt.reference}\")\nreturn receipt\n```"
+  },
+  {
+   "n": 3,
+   "severity": "P2",
+   "ruleSet": "JVM P1",
+   "filePath": "src/checkout/CheckoutService.kt",
+   "line": 29,
+   "summary": "Every exception is retried, even a declined card",
+   "content": "**Every exception is retried, even a declined card**\n\n`catch (e: Exception)` treats a declined card like a network blip. The customer waits through three tries and gets the same decline each time. You could retry only the errors that can pass on a second try, such as timeouts.\n\nPlease take a look at the suggested fix below, unless this was intentional.\n\n```kotlin\n} catch (e: PaymentTimeoutException) {\n```"
+  },
+  {
+   "n": 4,
+   "severity": "P4",
+   "ruleSet": "JVM P1",
+   "filePath": "src/checkout/CheckoutServiceTest.kt",
+   "line": 18,
+   "summary": "The test covers one failure, not the cases that cost money",
+   "content": "**The test covers one failure, not the cases that cost money**\n\nThe new test fails once, then works. Nothing checks what happens when every try fails, when the card is declined, or when the email fails after a good charge. You could add these cases.\n\nPlease take a look at the suggested fix below, unless this was intentional.\n\n```\n1. All three tries fail: pay() throws, and charge was called 3 times.\n2. Card declined: pay() throws after 1 call.\n3. Email fails after a good charge: charge was called once.\n```"
+  }
+ ],
+ "heldBack": [
+  "Thread.sleep blocks the calling thread: fine for a 200 ms pause in this service.",
+  "MAX_ATTEMPTS and RETRY_DELAY_MS are named constants, so no magic-number comment."
+ ],
+ "skippedExisting": 0,
+ "impact": {
+  "score": 3,
+  "reasons": [
+   "CheckoutService.pay() is called from the cart screen, the API and the reorder job",
+   "It moves real money, so a retry bug has a real cost"
+  ],
+  "basis": "callers checked"
+ },
+ "overview": {
+  "title": "What happens when a payment fails",
+  "nodes": [
+   {
+    "id": "a",
+    "text": "Customer taps Pay",
+    "kind": "start"
+   },
+   {
+    "id": "b",
+    "text": "CheckoutService.pay() starts the loop",
+    "kind": "step"
+   },
+   {
+    "id": "c",
+    "text": "PaymentClient.charge() is called",
+    "kind": "step",
+    "findings": [
+     1
+    ]
+   },
+   {
+    "id": "d",
+    "text": "Did the charge work?",
+    "kind": "decision",
+    "findings": [
+     4
+    ]
+   },
+   {
+    "id": "e",
+    "text": "Send the receipt email, inside the same try",
+    "kind": "step",
+    "findings": [
+     2
+    ]
+   },
+   {
+    "id": "f",
+    "text": "catch (Exception): wait 200 ms",
+    "kind": "bad",
+    "findings": [
+     3
+    ]
+   },
+   {
+    "id": "g",
+    "text": "Receipt shown",
+    "kind": "ok"
+   }
+  ],
+  "edges": [
+   [
+    "a",
+    "b"
+   ],
+   [
+    "b",
+    "c"
+   ],
+   [
+    "c",
+    "d"
+   ],
+   [
+    "d",
+    "e",
+    "yes"
+   ],
+   [
+    "d",
+    "f",
+    "no"
+   ],
+   [
+    "e",
+    "g"
+   ],
+   [
+    "f",
+    "c",
+    "retry"
+   ]
+  ]
+ }
+}

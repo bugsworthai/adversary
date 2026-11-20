@@ -1,0 +1,27 @@
+{
+ "provider": "github",
+ "owner": "acme",
+ "repo": "orders-api",
+ "prId": 101,
+ "title": "Retry failed checkout payments",
+ "url": "offline",
+ "sourceBranch": "retry-payments",
+ "targetBranch": "main",
+ "sourceSha": "unknown",
+ "targetSha": "unknown",
+ "localClone": null,
+ "conventions": [],
+ "commentAs": null,
+ "error": null,
+ "freshness": {
+  "status": "overlaps",
+  "behindBy": 3,
+  "overlapFiles": [
+   "src/checkout/CheckoutService.kt"
+  ],
+  "conflictFiles": [],
+  "overlapChecked": true,
+  "source": "git",
+  "note": ""
+ }
+}

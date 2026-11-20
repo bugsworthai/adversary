@@ -7,7 +7,7 @@ description: Helps you keep up with AI-written pull requests: a faster, more con
 
 This file chooses which version of AdversaryPR runs, then hands off to it. The review instructions live in `versions/<version>/instructions.md`. Released versions are frozen and never change after release, so `version=1.1.0` behaves the same next year as it does today.
 
-**Latest version: 2.23.0**
+**Latest version: 2.24.0**
 
 ## Step 0 — Pick the version
 
@@ -17,7 +17,7 @@ Arguments are in `$ARGUMENTS`.
    - **No `version=`**, or `version=latest` → use the latest version above.
    - **`version=list`** → print the "Available versions" table and the release notes below, then stop. Don't review anything.
    - **An exact version** (`2.10.0`) → use it.
-   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.23.0` today.
+   - **A partial version** (`2` or `2.10`) → match it against whole version components, not as text: `2` means any `2.x.x`, and `2.10` means any `2.10.x`. Use the highest match, comparing component by component as numbers (so `2.10.0` beats `2.9.0`). `2` → `2.24.0` today.
    - **No match, or anything else** → say the version doesn't exist, print the "Available versions" table, and stop. Never fall back to a different version silently, because the user asked for a specific one.
 
    A "released version" is a row in the Available versions table whose folder exists under `versions/`.
@@ -82,7 +82,8 @@ Older version:
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.23.0** (latest) | 2026-11-20 | The fit result comes with a suggested next step |
+| **2.24.0** (latest) | 2026-11-20 | Click a flowchart on the page to enlarge it |
+| 2.23.0 | 2026-11-20 | The fit result comes with a suggested next step |
 | 2.22.0 | 2026-11-20 | Comments use contractions and match their wording to how sure the review is; impact and fit show as a scorecard on the page |
 | 2.21.0 | 2026-11-20 | The fit check no longer says "no overlap" when GitHub caps the file list |
 | 2.20.0 | 2026-11-20 | Checks the PR still fits its target branch, an impact score, and the how-it-works flowchart on every run |
@@ -98,17 +99,25 @@ Older version:
 | 2.10.0 | 2026-11-14 | A bare PR number now uses the repo in your current folder |
 
 ```
-/adversary 38842                        → latest (2.23.0)
+/adversary 38842                        → latest (2.24.0)
 /adversary 38842 ; html                 → latest, plus a web-page preview
 /adversary 38842 ; model=haiku          → latest, reviewed by Haiku
 /adversary 38842 38901 39010 ; dry run  → latest, three PRs reviewed at the same time
 /adversary https://github.com/acme/orders-api/pull/101 ; dry run  → latest, a GitHub PR
 /adversary 38842 ; version=2.10.0       → exactly 2.10.0
-/adversary 38842 ; version=2            → newest 2.x (2.23.0)
+/adversary 38842 ; version=2            → newest 2.x (2.24.0)
 /adversary version=list                 → versions and release notes; no review
 ```
 
 ## Release notes
+### 2.24.0 — 2026-11-20
+
+**Changed**
+- **Click a flowchart to enlarge it.** On the HTML page, a click (or Enter) on a flowchart opens it large over the page, and a click or Escape closes it. Badges still jump to their finding, and Save PNG still saves the image.
+- The impact reasons on the scorecard now show how they were found in brackets, such as "(callers checked)", instead of running on from the last reason.
+
+**Unchanged:** the checks, the evidence standard, severity, the impact score, the fit result and its next step, the comment format, and the rule that nothing posts without your approval.
+
 ### 2.23.0 — 2026-11-20
 
 **Changed**

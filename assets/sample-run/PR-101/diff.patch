@@ -1,0 +1,52 @@
+diff --git a/src/checkout/CheckoutService.kt b/src/checkout/CheckoutService.kt
+index 3f2a1c4..9b8d7e2 100644
+--- a/src/checkout/CheckoutService.kt
++++ b/src/checkout/CheckoutService.kt
+@@ -18,8 +18,26 @@ class CheckoutService(
+     private val payments: PaymentClient,
+     private val mailer: ReceiptMailer,
+ ) {
+-    fun pay(order: Order): Receipt {
+-        val result = payments.charge(order.id, order.totalCents)
+-        return Receipt(order.id, result.reference)
+-    }
++    fun pay(order: Order): Receipt {
++        var attempt = 0
++        while (true) {
++            try {
++                val result = payments.charge(order.id, order.totalCents)
++                val receipt = Receipt(order.id, result.reference)
++                mailer.send(order.email, "Receipt ${receipt.reference}: ${format(order.totalCents)}")
++                return receipt
++            } catch (e: Exception) {
++                attempt++
++                if (attempt >= MAX_ATTEMPTS) throw e
++                Thread.sleep(RETRY_DELAY_MS)
++            }
++        }
++    }
++
++    private fun format(cents: Int): String = "$%d.%02d".format(cents / 100, cents % 100)
++
++    companion object {
++        const val MAX_ATTEMPTS = 3
++        const val RETRY_DELAY_MS = 200L
++    }
+ }
+diff --git a/src/checkout/CheckoutServiceTest.kt b/src/checkout/CheckoutServiceTest.kt
+index 5d1e0aa..c7a4b19 100644
+--- a/src/checkout/CheckoutServiceTest.kt
++++ b/src/checkout/CheckoutServiceTest.kt
+@@ -12,5 +12,12 @@ class CheckoutServiceTest {
+     @Test
+     fun `pay returns a receipt`() {
+         assertEquals("r-1", service.pay(order).reference)
+     }
++
++    @Test
++    fun `pay retries once after a failure`() {
++        payments.failTimes = 1
++        assertEquals("r-1", service.pay(order).reference)
++        assertEquals(2, payments.calls)
++    }
+ }

@@ -123,19 +123,20 @@ The limits, so there are no surprises:
 
 ## See every comment before it posts
 
-Add `html` to a run (`/adversary 38842 ; html`) and the review opens as a web page. The chat also prints a link to it that you can click in your terminal. It is a calm place to read, change your mind, and choose.
+Add `html` to a run (`/adversary 38842 ; html`) and the review opens as a web page. The chat also prints a link to it that you can click in your terminal. It is a calm place to read, change your mind, and choose. Click an image to see it full size.
 
 <p align="center">
-  <img alt="A flowchart of how the changed code works, with each finding pinned to its step as a badge such as P1 number 2, above the findings table." src="assets/html-flow.png" width="720">
+  <a href="assets/html-flow-v2.png"><img alt="The top of the page for a sample review: an impact score of 3 out of 5, the fit with the main branch and its next step, and a flowchart of how a checkout retry works, with findings pinned to steps as badges." src="assets/html-flow-v2.png" width="720"></a>
 </p>
 
 <p align="center">
-  <img alt="The HTML preview: a table of 11 findings with severity, file and line, and below it the first comment with the diff lines it points at, the comment as it will appear on the pull request, and a bar to copy your selection." src="assets/html-preview.png" width="720">
+  <a href="assets/html-preview-v2.png"><img alt="The HTML preview of a sample review: charts, a table of four findings, and the first comment with the diff lines it points at, the comment as it will appear on the pull request, and a bar to copy your selection." src="assets/html-preview-v2.png" width="720"></a>
 </p>
 
 - **Branded and visual.** The page opens with the AdversaryPR logo, name and version, and shows findings by severity and by file as charts.
 - **Does it still fit, and how far does it reach?** Before it reads any lines, each PR is checked for whether it is up to date with its target branch, behind it, touching files that changed there, or no longer merging cleanly. Each PR also gets an impact score from 1 to 5, a judgment (not a measurement) of how much of the codebase the change can touch, with the reasons. Both show in the chat and the page, never in a comment, and the review runs either way.
 - **A flowchart of how the code works.** Every run explains the changed code as a flowchart, drawn from the code that was read. Each finding is pinned to the step where it happens, as a badge you can click. Findings with a failure path can get their own small chart. They work offline and are never part of a comment.
+- **Click to enlarge.** On the page, a click on a flowchart opens it large, and Escape closes it.
 - **Save it.** The skill saves `preview.pdf` next to the page, and the page's **Download PDF** button downloads it as a real PDF, with no print dialog. Each flowchart has a Save PNG button, and `--png` saves the whole page as one image.
 - **Each comment next to its code.** The diff lines around the comment are highlighted, so you can judge it in context.
 - **The comment as the pull request will show it,** and the exact markdown that will be posted.
