@@ -133,11 +133,17 @@ Add `html` to a run (`/adversary 38842 ; html`) and the review opens as a web pa
   <a href="assets/html-preview-v2.png"><img alt="The HTML preview of a sample review: charts, a table of four findings, and the first comment with the diff lines it points at, the comment as it will appear on the pull request, and a bar to copy your selection." src="assets/html-preview-v2.png" width="720"></a>
 </p>
 
+<p align="center">
+  <a href="assets/html-maps-v1.png"><img alt="The animated architecture map for a sample review: the callers of a checkout service, what it calls, the changed parts marked, and findings pinned as badges, with the AdversaryPR logo in the corner." src="assets/html-maps-v1.png" width="720"></a>
+</p>
+
 - **Branded and visual.** The page opens with the AdversaryPR logo, name and version, and shows findings by severity and by file as charts.
 - **Does it still fit, and how far does it reach?** Before it reads any lines, each PR is checked for whether it is up to date with its target branch, behind it, touching files that changed there, or no longer merging cleanly. Each PR also gets an impact score from 1 to 5, a judgment (not a measurement) of how much of the codebase the change can touch, with the reasons. Both show in the chat and the page, never in a comment, and the review runs either way.
 - **A flowchart of how the code works.** Every run explains the changed code as a flowchart, drawn from the code that was read. Each finding is pinned to the step where it happens, as a badge you can click. Findings with a failure path can get their own small chart. They work offline and are never part of a comment.
+- **The changed code in motion.** Three animated maps of the code in the PR: how its parts fit together (architecture), how a request or piece of data moves through the change (data flow), and what the data looks like (data model). They play one step at a time, mark what the PR changes, and pin each finding where it applies. Save any map as a GIF to drop into the PR. They use the page's colors, so your browser's light or dark mode applies. Like the flowchart, they're never part of a comment.
+- **A summary you can listen to.** A short summary of what the PR does, its impact, its fit and its findings, with Play and Pause, a speed setting, and a voice picker. It uses a voice from your own device, and it only uses an online voice if you pick one. Each map also has a text version for screen readers.
 - **Click to enlarge.** On the page, a click on a flowchart opens it large, and Escape closes it.
-- **Save it.** The skill saves `preview.pdf` next to the page, and the page's **Download PDF** button downloads it as a real PDF, with no print dialog. Each flowchart has a Save PNG button, and `--png` saves the whole page as one image.
+- **Save it.** The skill saves `preview.pdf` next to the page, and the page's **Download PDF** button downloads it as a real PDF, with no print dialog. Each flowchart has a Save PNG button, and `--png` saves the whole page as one image. The logo is on the flowcharts, the maps, and every PDF page.
 - **Each comment next to its code.** The diff lines around the comment are highlighted, so you can judge it in context.
 - **The comment as the pull request will show it,** and the exact markdown that will be posted.
 - **A checkbox for every comment.** Untick what you don't want, then copy the reply (such as `1 3-5`) back into the chat.
@@ -248,7 +254,11 @@ AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to
 
 | Version | Released | Highlights |
 |---|---|---|
-| **2.21.0** | 2026-11-20 | The fit check says so when GitHub caps the list of files changed on the target, instead of claiming no overlap |
+| **2.25.0** | 2026-11-23 | Animated architecture, data-flow and data-model maps, a summary you can listen to, and accessibility and branding upgrades on the HTML page |
+| 2.24.0 | 2026-11-20 | UI improvements on the HTML page |
+| 2.23.0 | 2026-11-20 | Next steps for the fit check |
+| 2.22.0 | 2026-11-20 | Wording and scorecard improvements |
+| 2.21.0 | 2026-11-20 | The fit check says so when GitHub caps the list of files changed on the target, instead of claiming no overlap |
 | 2.20.0 | 2026-11-20 | Checks the PR still fits its target branch, an impact score, and the flowchart on every run (as text, or a picture with `html`) |
 | 2.19.0 | 2026-11-17 | The HTML page downloads a real PDF (no print dialog) |
 | 2.18.0 | 2026-11-17 | Every HTML page explains how the code works in a flowchart with findings pinned to steps; export to PDF or PNG |

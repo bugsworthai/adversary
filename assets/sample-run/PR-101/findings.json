@@ -136,5 +136,292 @@
     "retry"
    ]
   ]
- }
+ },
+ "maps": {
+  "architecture": {
+   "foot": "changed in this PR: CheckoutService.kt and its test   \u00b7   impact 3 of 5 (Shared)",
+   "nodes": [
+    {
+     "id": "cart",
+     "title": "Cart screen",
+     "sub": "UI"
+    },
+    {
+     "id": "api",
+     "title": "Orders API",
+     "sub": "HTTP"
+    },
+    {
+     "id": "job",
+     "title": "Reorder job",
+     "sub": "scheduled"
+    },
+    {
+     "id": "svc",
+     "title": "CheckoutService",
+     "sub": "pay() now loops and retries",
+     "changed": true,
+     "findings": [
+      1,
+      2,
+      3
+     ]
+    },
+    {
+     "id": "test",
+     "title": "CheckoutServiceTest",
+     "sub": "one failure tested",
+     "changed": true,
+     "findings": [
+      4
+     ]
+    },
+    {
+     "id": "pay",
+     "title": "PaymentClient",
+     "sub": "charge(orderId, cents)"
+    },
+    {
+     "id": "mail",
+     "title": "ReceiptMailer",
+     "sub": "send(email, text)"
+    }
+   ],
+   "edges": [
+    {
+     "from": "cart",
+     "to": "svc",
+     "label": "pay(order)",
+     "caption": "The cart screen calls CheckoutService.pay()."
+    },
+    {
+     "from": "api",
+     "to": "svc",
+     "label": "pay(order)",
+     "caption": "So does the Orders API."
+    },
+    {
+     "from": "job",
+     "to": "svc",
+     "label": "pay(order)",
+     "caption": "And the reorder job. Three callers means a bug here reaches all three."
+    },
+    {
+     "from": "svc",
+     "to": "pay",
+     "label": "charge()",
+     "caption": "pay() charges the card. The new loop can call this up to 3 times."
+    },
+    {
+     "from": "svc",
+     "to": "mail",
+     "label": "send()",
+     "caption": "Then it sends the receipt, inside the same try as the charge."
+    },
+    {
+     "from": "test",
+     "to": "svc",
+     "label": "calls pay()",
+     "caption": "The new test covers one failure, not the ones that cost money."
+    }
+   ]
+  },
+  "dataflow": {
+   "foot": "badges are this review's findings, pinned to the step they belong to",
+   "nodes": [
+    {
+     "id": "a",
+     "title": "Customer taps Pay",
+     "sub": "start"
+    },
+    {
+     "id": "b",
+     "title": "pay() starts loop",
+     "sub": "new",
+     "changed": true
+    },
+    {
+     "id": "c",
+     "title": "charge()",
+     "sub": "waited on",
+     "changed": true,
+     "findings": [
+      1
+     ]
+    },
+    {
+     "id": "d",
+     "title": "Did it work?",
+     "sub": "decision",
+     "findings": [
+      4
+     ]
+    },
+    {
+     "id": "e",
+     "title": "Send receipt email",
+     "sub": "inside the same try",
+     "changed": true,
+     "findings": [
+      2
+     ]
+    },
+    {
+     "id": "f",
+     "title": "catch (Exception)",
+     "sub": "wait 200 ms, then retry",
+     "changed": true,
+     "findings": [
+      3
+     ]
+    },
+    {
+     "id": "g",
+     "title": "Receipt shown",
+     "sub": "done"
+    }
+   ],
+   "edges": [
+    {
+     "from": "a",
+     "to": "b",
+     "label": "",
+     "caption": "1. A customer taps Pay."
+    },
+    {
+     "from": "b",
+     "to": "c",
+     "label": "",
+     "caption": "2. pay() starts a loop of up to 3 tries."
+    },
+    {
+     "from": "c",
+     "to": "d",
+     "label": "",
+     "caption": "3. The card is charged and the code waits for the answer."
+    },
+    {
+     "from": "d",
+     "to": "e",
+     "label": "yes",
+     "caption": "4. It worked, so the receipt email goes out. A mail error here lands in the catch."
+    },
+    {
+     "from": "e",
+     "to": "g",
+     "label": "returns",
+     "caption": "5. If the email works, the receipt is returned."
+    },
+    {
+     "from": "d",
+     "to": "f",
+     "label": "no",
+     "caption": "6. If anything throws, even a declined card, it waits and goes round again."
+    },
+    {
+     "from": "f",
+     "to": "c",
+     "label": "retry: charges again",
+     "bad": true,
+     "caption": "7. The retry charges the card again. This is where a customer pays twice."
+    }
+   ]
+  },
+  "datamodel": {
+   "foot": "+ new in this PR      ? missing from the request",
+   "nodes": [
+    {
+     "id": "order",
+     "title": "Order",
+     "sub": "",
+     "rows": [
+      "id",
+      "email",
+      "totalCents"
+     ]
+    },
+    {
+     "id": "req",
+     "title": "charge( ) request",
+     "sub": "",
+     "rows": [
+      "orderId",
+      "totalCents",
+      "? idempotencyKey",
+      "   not sent on retries"
+     ],
+     "changed": true,
+     "findings": [
+      1
+     ]
+    },
+    {
+     "id": "res",
+     "title": "ChargeResult",
+     "sub": "",
+     "rows": [
+      "reference",
+      "status"
+     ]
+    },
+    {
+     "id": "rec",
+     "title": "Receipt",
+     "sub": "",
+     "rows": [
+      "orderId",
+      "reference"
+     ]
+    },
+    {
+     "id": "pol",
+     "title": "Retry policy",
+     "sub": "",
+     "rows": [
+      "+ MAX_ATTEMPTS = 3",
+      "+ RETRY_DELAY_MS = 200",
+      "+ retries any Exception"
+     ],
+     "changed": true,
+     "findings": [
+      3
+     ]
+    }
+   ],
+   "edges": [
+    {
+     "from": "order",
+     "to": "req",
+     "label": "id, total",
+     "caption": "An Order supplies the id and the total for the charge."
+    },
+    {
+     "from": "pol",
+     "to": "req",
+     "label": "up to 3 times",
+     "bad": true,
+     "caption": "The retry loop sends the same request again, up to 3 times."
+    },
+    {
+     "from": "req",
+     "to": "res",
+     "label": "gateway",
+     "caption": "The gateway answers with a ChargeResult. With no key, it can't tell a repeat from a new charge."
+    },
+    {
+     "from": "res",
+     "to": "rec",
+     "label": "reference",
+     "caption": "The reference becomes the Receipt."
+    },
+    {
+     "from": "order",
+     "to": "rec",
+     "label": "orderId",
+     "caption": "The Receipt keeps the order id."
+    }
+   ]
+  }
+ },
+ "summary": "This change makes checkout try a failed payment again, up to 3 times, with a short wait between tries. Before, one failed charge ended the checkout. It touches the code that moves money, and three places call it."
 }
