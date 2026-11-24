@@ -250,6 +250,19 @@ AdversaryPR and its GitHub Copilot port are free and open source. Nobody pays to
 - **Support:** questions, bugs or ideas are welcome at [support@adversarypr.com](mailto:support@adversarypr.com).
 - **Hosted team endpoint:** coming. It isn't live, and details and any pricing aren't decided. Questions or news: [support@adversarypr.com](mailto:support@adversarypr.com).
 
+## The Adversary difference
+
+AI makes PR's arrive faster than people can read them. Here's how AdversaryPR helps you keep up, and what it leaves to you.
+
+- **In your own session.** There's no review server in the middle. It runs in your Claude session, with your access. Your token stays in that session, and the review agents never see it.
+- **You approve every comment.** Nothing posts until you pick it. `dry run` posts nothing at all.
+- **Azure DevOps and GitHub.** One review for both, and a whole stack of PR's in a single run, with one combined preview.
+- **It checks the fit first.** Before it reads a line, it checks whether the PR still fits its target branch, and scores how far the change reaches.
+- **It shows you the change.** A flowchart, plus animated architecture, data-flow and data-model maps with each finding pinned to its place. Save a map as a GIF.
+- **Evidence, not guesses.** Every comment names a real failure and carries the fix as code. What it considered and dropped is listed, so you see what it held back.
+- **Open and repeatable.** Free, MIT licensed, and every released version is frozen. Pin a version and it behaves the same next year.
+- **For the whole team.** A summary you can listen to, text versions of every map, and a page that loads nothing from the network.
+
 ## Latest release
 
 | Version | Released | Highlights |
